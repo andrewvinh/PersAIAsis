@@ -7,14 +7,14 @@ args = {'files': [],
 #Current
 bod = config.build()
 
-def main():
+def run():
     if(len(sys.argv) > 0):
         '''
         print "Input args: ", sys.argv
         print "Main bod: ", bod
         '''
         orgArgs = pread.readArgs(sys.argv, bod)
-        print orgArgs
+        print "Read args: ", orgArgs
         #oldRead()
     else:
         print "No commands found. What would you like?"
@@ -94,4 +94,4 @@ def oldRead():
 
 
 if __name__ == '__main__':
-    main()
+    run()

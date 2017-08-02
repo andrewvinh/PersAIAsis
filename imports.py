@@ -15,6 +15,7 @@ This will avoid flooding the namespace
 '''
 f = open('tools/config.txt','r')
 pmods = json.load(f)["modules"].split()
+f.close()
 
 #Personal libraries
 for lib in pmods:

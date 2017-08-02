@@ -1,10 +1,15 @@
 from imports import *
 
 def build():
-    #print "Args in config: ", sys.argv
+    
     f = open('tools/config.txt','r')
-    pmods = json.load(f)["modules"].split()
-    #print "Modules: ", pmods
+    bod = json.load(f)
+    pmods = bod["modules"].split()
+    '''
+    print "Args in config: ", sys.argv
+    print "Bod: ", bod
+    print "Modules: ", pmods
+    '''
     functions = []
     for mod in pmods:
         #Finds the functions of each imported pclass
@@ -17,6 +22,6 @@ def build():
         for c in com:
             functions.append(c[0])
     #print "Functions: ", str(functions)
-    mods = {'modules': pmods,
-            'functions': functions}
-    return mods
+    bod['functions'] = functions
+    f.close()
+    return bod

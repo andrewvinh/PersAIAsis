@@ -1,15 +1,21 @@
 from imports import *
 
+#OLD!!!
 args = {'files': [],
         'commands': []}
+
+#Current
 bod = config.build()
-#print "Main bod: ", bod
 
 def main():
     if(len(sys.argv) > 0):
-        #print "Input args: ", sys.argv
-        pread.readArgs(sys.argv, bod)
-        oldRead()
+        '''
+        print "Input args: ", sys.argv
+        print "Main bod: ", bod
+        '''
+        orgArgs = pread.readArgs(sys.argv, bod)
+        print orgArgs
+        #oldRead()
     else:
         print "No commands found. What would you like?"
 

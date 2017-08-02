@@ -3,7 +3,7 @@ from imports import *
 def build():
     #print "Args in config: ", sys.argv
     f = open('tools/config.txt','r')
-    pmods = f.read().split()
+    pmods = json.load(f)["modules"].split()
     #print "Modules: ", pmods
     functions = []
     for mod in pmods:

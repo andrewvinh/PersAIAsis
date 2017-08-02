@@ -14,7 +14,7 @@ Functions from imports shall be called as MODULE.FUNCTION()
 This will avoid flooding the namespace
 '''
 f = open('tools/config.txt','r')
-pmods = f.read().split()
+pmods = json.load(f)["modules"].split()
 
 #Personal libraries
 for lib in pmods:

@@ -9,6 +9,12 @@ def main():
     if(len(sys.argv) > 0):
         #print "Input args: ", sys.argv
         pread.readArgs(sys.argv, bod)
+        oldRead()
+    else:
+        print "No commands found. What would you like?"
+
+
+def oldRead():
         for item in sys.argv[1:]:
             '''
             print item
@@ -75,10 +81,6 @@ def main():
 
         else: 
             print "What would you like?"
-    else:
-        print "No commands found. What would you like?"
-
-
 
 
 

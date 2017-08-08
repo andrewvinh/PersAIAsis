@@ -1,11 +1,13 @@
 #Factory libraries
 import re
 import sys
+import os
 import inspect
 import openpyxl
 import datetime
 import json
 sys.path.insert(0,'/Users/andrewvinh/Development/tools/')
+sys.path.insert(0,'/Users/andrewvinh/Development/db/')
 
 
 '''

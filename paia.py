@@ -14,11 +14,21 @@ def run():
         print "Main bod: ", bod
         '''
         orgArgs = pread.readArgs(sys.argv, bod)
-        print "Read args: ", orgArgs
+        db = database.loadDB()
+        print database.addHeader("Misc")
+        print database.deleteHeader("Misc")
+        #print "Read args: ", orgArgs
+        newRead()
+        
         #oldRead()
     else:
         print "No commands found. What would you like?"
 
+def newRead():
+    print "newRead: ", bod["inputArgs"]
+    for key,val in bod["inputArgs"].items():
+        print key
+        print val
 
 def oldRead():
         for item in sys.argv[1:]:

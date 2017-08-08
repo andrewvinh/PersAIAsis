@@ -1,5 +1,5 @@
 {
-   "modules": "text pmath pexcel pread",
+   "modules": "text pmath pexcel pread database",
    "filePaths": ".py .xlsx .txt .doc .docx .cljs .clj .java .rtf .dmg",
    "picturePaths": ".png .gif .jpg .pdf", 
    "webPaths": ".com .org .us .net .gov .go .ly"

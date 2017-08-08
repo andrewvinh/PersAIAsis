@@ -32,7 +32,7 @@ def newRead():
     for key,val in bod["inputArgs"].items():
         print key
         print val
-        #key()
+        key()
 
 def oldRead():
         for item in sys.argv[1:]:

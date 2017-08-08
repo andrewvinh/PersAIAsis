@@ -15,8 +15,11 @@ def run():
         '''
         orgArgs = pread.readArgs(sys.argv, bod)
         db = database.loadDB()
-        print database.addHeader("Misc")
-        print database.deleteHeader("Misc")
+        database.addHeader("Notes")
+        #database.deleteHeader("Test")
+        #database.addEntry("Misc", {"Random": "Note"})
+        #database.deleteEntry("Test", "Random:")
+        #database.deleteEntry("Misc", "Random note")
         #print "Read args: ", orgArgs
         newRead()
         

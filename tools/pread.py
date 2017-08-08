@@ -25,11 +25,11 @@ def readArgs(argv, bod):
         '''
         for function in functions:
             if temp == function.split(".")[1]:
-                print temp, " == ", function.split(".")[1]
+                #print temp, " == ", function.split(".")[1]
                 if temp not in bod['inputArgs']:
                     bod['inputArgs'][function] = []
                     current = function
             elif current in bod['inputArgs'].keys() and temp not in bod['inputArgs'][current] and temp != current.split(".")[1]:
                 bod['inputArgs'][current].append(temp)
-        print current
+        #print current
     return bod

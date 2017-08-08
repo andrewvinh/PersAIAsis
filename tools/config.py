@@ -20,8 +20,8 @@ def build():
         print "Com: ", com
         '''
         for c in com:
-            functions.append(c[0])
+            functions.append(str(mod+"."+c[0]))
     #print "Functions: ", str(functions)
-    bod['functions'] = functions
+    bod["functions"] = functions
     f.close()
     return bod

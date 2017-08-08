@@ -15,7 +15,7 @@ def run():
         '''
         orgArgs = pread.readArgs(sys.argv, bod)
         db = database.loadDB()
-        database.addHeader("Notes")
+        #database.addHeader("Notes")
         #database.deleteHeader("Test")
         #database.addEntry("Misc", {"Random": "Note"})
         #database.deleteEntry("Test", "Random:")
@@ -32,6 +32,7 @@ def newRead():
     for key,val in bod["inputArgs"].items():
         print key
         print val
+        #key()
 
 def oldRead():
         for item in sys.argv[1:]:

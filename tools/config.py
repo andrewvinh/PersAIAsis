@@ -21,10 +21,10 @@ def build():
         print "Com: ", com
         '''
         for c in com:
-            print "Appending to functions: ", str(mod+"."+c[0])
+            #print "Appending to functions: ", str(mod+"."+c[0])
             functions.append(str(mod+"."+c[0]))
             #fcalls.append({c[0]:mod.c[0]})
-            print c[0]
+            #print c[0]
             globals()[c[0]] = c[0]
     #print "Functions: ", str(functions)
     bod["functions"] = functions

@@ -6,14 +6,14 @@ def writeDB(newDB):
     with open(localDB,'w') as f:
         f.write(json.dumps(newDB, sort_keys=False, indent=4))
 
-def loadDB():
+def loadDB(*args):
     db = {}
     if os.path.isfile(localDB):
         with open(localDB,'r') as f:
             db = json.load(f)
     else:
         writeDB({})
-    #print "DB bod: ", db
+    print "Loaded DB: ", db
     return db
 
 def addHeader(header):
@@ -24,6 +24,7 @@ def addHeader(header):
     else:
         print header, "already exists!" 
     writeDB(db)
+    loadDB()
     return db
 
 def deleteHeader(header):
@@ -34,35 +35,47 @@ def deleteHeader(header):
         db.pop(header)
         print "Successfully removed from local DB:", db
     writeDB(db) if len(db) > 0 else writeDB({})
-    print "Loaded after deletion: ", loadDB()
+    loadDB()
     return db
 
-def addEntry(header, value):
-    print "Attempting to add \"", value, "\" to ", header
+def addEntry(entryList):
+    header = entryList[0]
+    values = entryList[1::]
+    print "Attempting to add \"", values, "\" to ", header
     db = loadDB()
     if header in db.keys():
-        db[header].append(value)
-    writeDB(db)
-    print "Load addition: ", loadDB()
+        for value in values:
+            db[header].append(value)
+            writeDB(db)
+            print "Load addition: ", db
+    else:
+        print "Header was not found in DB! No changes made"
     return db
 
-def deleteEntry(header, value):
+def deleteEntry(entryList):
+    header = entryList[0]
+    value = entryList[1]
     print "Attempting to delete \"", value, "\" from ", header
     db = loadDB()
     if header in db.keys():
+        print "Found key!"
         if value[len(value)-1] != ":" and value in db[header]:
-                db[header].remove(value)
+            print "Single variable"    
+            db[header].remove(value)
+        #Value is a dict, record differently
         else:
             value = value[0:len(value)-1]
-            print value
+            print "Delete Value: ", value
             for entry in db[header]:
                 print "db[header] :", entry
                 if value in entry.keys():
                     #entry.pop(value)
                     print "Value: ", value
                     db[header][:] = [d for d in db[header] if value not in d.keys()]
+    else:
+        print "Key not found for deletion. Looks good to me :P"
     writeDB(db)
-    print "Load deletion: ", loadDB()
+    loadDB()
     return db
 
 

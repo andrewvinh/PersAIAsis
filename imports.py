@@ -7,7 +7,7 @@ import openpyxl
 import datetime
 import json
 
-f = open('tools/config.txt','r')
+f = open('/Users/andrewvinh/Development/tools/config.txt','r')
 loaded = json.load(f)
 pdirs = loaded["dirs"].split()
 pmods = loaded["modules"].split()

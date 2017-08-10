@@ -2,7 +2,7 @@ from imports import *
 
 def build():
     
-    f = open('tools/config.txt','r')
+    f = open('/Users/andrewvinh/Development/tools/config.txt','r')
     bod = json.load(f)
     pmods = bod["modules"].split()
     '''

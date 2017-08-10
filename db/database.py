@@ -1,6 +1,6 @@
 from imports import *
 
-localDB = "db/db.txt"
+localDB = "/Users/andrewvinh/Development/db/db.txt"
 
 def writeDB(newDB):
     with open(localDB,'w') as f:

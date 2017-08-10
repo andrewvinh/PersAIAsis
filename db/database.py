@@ -46,6 +46,7 @@ def addEntry(entryList):
     db = loadDB()
     count = 0
     if header in db.keys():
+        '''
         while count < len(values)-1:
             print "Count: ", count
             value = values[count]
@@ -71,6 +72,9 @@ def addEntry(entryList):
                 db[header].append(value)
             count = count + 1
         writeDB(db)
+        '''
+        orgArgs = getEntry(entryList)
+        print "Getting entries: ", orgArgs
     else:
         print "Header was not found in DB! No changes made =["
     return db
@@ -106,30 +110,61 @@ def deleteEntry(entryList):
     return db
 
 def getEntry(entries):
-    print "Getting entry from: ", entries
+    '''
+    Strange fucking situation with this entries list: I have to skip the first entry everytime. 
+    Maybe fix later? 
+    Or don't fix what ain't broke? 
+    Hmm...
+    '''
+    entries = entries[1::]
+    #print "Getting entry from: ", entries
     final = []
     count = 0
     while count < len(entries):
         current = entries[count]
+        #print "Current: ", current
         last = current[len(current)-1]
         second = current[len(current)-2]
+        #Single entry
         if last != ":":
-            final.append(current)
-        elif last == ":" and second != ":":
-            print "Found single dict!"
-            if count+1 != len(values):
-                final.append({current:values[count+1]})
-                count = count + 1
-            else:
-                print "Reached end of list with incomplete dict.. What do I do =["
-        elif last == ":" and second == ":":
-            print "Found multiple dict!"
-            if count+1 != len(values):
-                head = current
-                #while current != "/" and 
-                count = count + 1
-            else:
-                print "Reached end of list with incomplete dict.. What do I do =["
-            
+            print "Found single entry: ", current
+            final.append(current.replace(":",''))
+        #Dict with single entry
+        elif last == ":" and second != ":" and count+1 != len(entries):
+            #print "Found single dict!"
+            final.append({current.replace(":",''):entries[count+1]})
+            count = count + 1
+        #Dict with multiple entries
+        elif last == ":" and second == ":" and count+1 != len(entries):
+            #print "Found multiple dict! WIP"
+            #print "Moving forward!"
+            head = current
+            breaker = [i for i,x in enumerate(entries[count::]) if x == "/"][0] if "/" in entries[count::] else len(entries)
+            temp = getEntry(entries[count:breaker])
+            #print "Equation breakup: ", temp
+            final.append({current:temp})
+            count = count + breaker
+        elif count+1 == len(entries):
+            print "End of args. I'm going to create a dict with an empty list."
+            final.append({current.replace(":",''):[]})
         count = count + 1
+    '''
+    print "Would you like to see the long or short version?"
+    lors = raw_input().strip()
+    print "Okay, let's see... Here we go!"
+    if lors == "Short" or lors == "short":
+        print "Final: ", final
+    elif lors == "Long" or lors == "long":
+        print "~~~~~"
+        for item in final:
+            print item
+        print "~~~~~"
+    else:
+        print "Wait hmm.. I didn't quite get that.. try again?"
+    print "Length: ", len(final)
+    '''
     return final
+
+def readAhead(entries):
+    print "Reading for continuous dict"
+

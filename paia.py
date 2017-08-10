@@ -39,7 +39,7 @@ def newRead():
             method = getattr(myClass, myFunc)
             method(val)
         except AttributeError:
-            raise NotImplementedError("Class `{}` does not implement `{}`".format(myClass.__class__.__name__, myFunc))
+            print ("Class `{}` does not implement `{}`".format(myClass.__class__.__name__, myFunc))
         
 
 def oldRead():

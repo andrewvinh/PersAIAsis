@@ -122,5 +122,14 @@ def getEntry(entries):
                 count = count + 1
             else:
                 print "Reached end of list with incomplete dict.. What do I do =["
+        elif last == ":" and second == ":":
+            print "Found multiple dict!"
+            if count+1 != len(values):
+                head = current
+                #while current != "/" and 
+                count = count + 1
+            else:
+                print "Reached end of list with incomplete dict.. What do I do =["
+            
         count = count + 1
     return final

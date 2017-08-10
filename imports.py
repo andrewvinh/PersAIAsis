@@ -6,19 +6,22 @@ import inspect
 import openpyxl
 import datetime
 import json
-sys.path.insert(0,'/Users/andrewvinh/Development/tools/')
-sys.path.insert(0,'/Users/andrewvinh/Development/db/')
 
+f = open('tools/config.txt','r')
+loaded = json.load(f)
+pdirs = loaded["dirs"].split()
+pmods = loaded["modules"].split()
+f.close()
+
+#Adding personal directories to path
+for pdir in pdirs:
+    sys.path.insert(0,str("/Users/andrewvinh/Development/"+pdir+"/"))
 
 '''
 It is important that we import the module at the highest level
 Functions from imports shall be called as MODULE.FUNCTION()
 This will avoid flooding the namespace
 '''
-f = open('tools/config.txt','r')
-pmods = json.load(f)["modules"].split()
-f.close()
-
 #Personal libraries
 for lib in pmods:
     globals()[lib] = __import__(lib)

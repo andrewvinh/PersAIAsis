@@ -140,7 +140,7 @@ def getEntry(entries):
             #print "Moving forward!"
             head = current
             breaker = [i for i,x in enumerate(entries[count::]) if x == "/"][0] if "/" in entries[count::] else len(entries)
-            temp = getEntry(entries[count:breaker])
+            temp = getEntry(entries[count-1:breaker])
             #print "Equation breakup: ", temp
             final.append({current:temp})
             count = count + breaker

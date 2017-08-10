@@ -14,14 +14,15 @@ def loadDB(*args):
             db = json.load(f)
     else:
         writeDB({})
-    print "Loaded DB: ", db
+    #print "Loaded DB: ", db
     return db
 
-def addHeader(header):
-    print "Adding ", header, " to local DB!"
+def addHeader(headers):
+    print "Adding ", headers, " to local DB!"
     db = loadDB()
-    if header not in db.keys():
-        db[header] = []
+    for header in headers:
+        if header not in db.keys():
+            db[header] = []
     else:
         print header, "already exists!" 
     writeDB(db)
@@ -42,7 +43,7 @@ def deleteHeader(header):
 def addEntry(entryList):
     header = entryList[0]
     values = entryList[1::]
-    print "Attempting to add \"", values, "\" to ", header
+    #print "Attempting to add \"", values, "\" to ", header
     db = loadDB()
     count = 0
     if header in db.keys():
@@ -75,6 +76,11 @@ def addEntry(entryList):
         '''
         orgArgs = getEntry(entryList)
         print "Getting entries: ", orgArgs
+        print "Header: ", db[header]
+        for item in orgArgs:
+            print item
+            db[header].append(item)
+        writeDB(db)
     else:
         print "Header was not found in DB! No changes made =["
     return db
@@ -116,18 +122,22 @@ def getEntry(entries):
     Or don't fix what ain't broke? 
     Hmm...
     '''
+    #print "Entries before cutting: ", entries
     entries = entries[1::]
-    #print "Getting entry from: ", entries
+    #print "After cutting: ", entries
     final = []
     count = 0
     while count < len(entries):
+        #print "Count: ", count
         current = entries[count]
         #print "Current: ", current
         last = current[len(current)-1]
         second = current[len(current)-2]
+        if current == "/":
+            final.append([])
         #Single entry
-        if last != ":":
-            print "Found single entry: ", current
+        elif last != ":":
+            #print "Found single entry: ", current
             final.append(current.replace(":",''))
         #Dict with single entry
         elif last == ":" and second != ":" and count+1 != len(entries):
@@ -136,11 +146,11 @@ def getEntry(entries):
             count = count + 1
         #Dict with multiple entries
         elif last == ":" and second == ":" and count+1 != len(entries):
-            #print "Found multiple dict! WIP"
-            #print "Moving forward!"
+            #print "Found multiple dict:", current
             head = current
-            breaker = [i for i,x in enumerate(entries[count::]) if x == "/"][0] if "/" in entries[count::] else len(entries)
-            temp = getEntry(entries[count-1:breaker])
+            breaker = [i for i,x in enumerate(entries[count::]) if x == "/"][-1] if "/" in entries[count::] else len(entries)
+            #print "Breaker: ", breaker, "\nStarting new getEntry for: ", entries[count:breaker+count]
+            temp = getEntry(entries[count:breaker+count])
             #print "Equation breakup: ", temp
             final.append({current:temp})
             count = count + breaker

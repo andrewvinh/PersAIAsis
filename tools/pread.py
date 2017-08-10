@@ -29,7 +29,9 @@ def readArgs(argv, bod):
                 if temp not in bod['inputArgs']:
                     bod['inputArgs'][function] = []
                     current = function
-            elif current in bod['inputArgs'].keys() and temp not in bod['inputArgs'][current] and temp != current.split(".")[1]:
+                    break
+            elif current in bod['inputArgs'].keys() and temp != current.split(".")[1]:
                 bod['inputArgs'][current].append(temp)
+                break
         #print current
     return bod

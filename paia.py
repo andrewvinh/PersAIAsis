@@ -1,3 +1,4 @@
+#!/usr/local/bin python
 from imports import *
 
 #OLD!!!
@@ -28,10 +29,10 @@ def run():
         print "No commands found. What would you like?"
 
 def newRead():
-    print "newRead: ", bod["inputArgs"]
+    #print "newRead: ", bod["inputArgs"]
     for key,val in bod["inputArgs"].items():
-        print key
-        print val
+        #print key
+        #print val
         myClass = __import__(key.split(".")[0])
         myFunc = key.split(".")[1]
         method = None

@@ -35,12 +35,13 @@ def newRead():
         #print val
         myClass = __import__(key.split(".")[0])
         myFunc = key.split(".")[1]
+        #print "myClass: ", myClass, "\nmyFunc: ", myFunc
         method = None
         try:
             method = getattr(myClass, myFunc)
             method(val)
         except AttributeError:
-            print ("Class `{}` does not implement `{}`".format(myClass.__class__.__name__, myFunc))
+            print ("Unable to call selected function with inputArgs")
         
 
 def oldRead():

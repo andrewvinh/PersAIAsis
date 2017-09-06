@@ -4,7 +4,7 @@ localDB = "/Users/andrewvinh/Development/db/db.txt"
 
 def writeDB(newDB):
     with open(localDB,'w') as f:
-        f.write(json.dumps(newDB, sort_keys=False, indent=4))
+        f.write(json.dumps(newDB, sort_keys=False, indent=2))
     print "New DB: ", newDB
 
 def loadDB(*args):
@@ -75,11 +75,12 @@ def addEntry(entryList):
         writeDB(db)
         '''
         orgArgs = getEntry(entryList)
-        print "Getting entries: ", orgArgs
-        print "Header: ", db[header]
+        #print "Getting entries: ", orgArgs
+        #print "Header: ", db[header]
         for item in orgArgs:
             print item
-            db[header].append(item)
+            if item != "" and len(item) != 0:
+                db[header].append(item)
         writeDB(db)
     else:
         print "Header was not found in DB! No changes made =["
@@ -122,38 +123,72 @@ def getEntry(entries):
     Or don't fix what ain't broke? 
     Hmm...
     '''
-    #print "Entries before cutting: ", entries
+    print "Entries before cutting: ", entries
     entries = entries[1::]
-    #print "After cutting: ", entries
+    print "After cutting: ", entries
     final = []
     count = 0
     while count < len(entries):
         #print "Count: ", count
         current = entries[count]
-        #print "Current: ", current
+        print "Current: ", current
         last = current[len(current)-1]
         second = current[len(current)-2]
         if current == "/":
-            final.append([])
+            break
         #Single entry
-        elif last != ":":
-            #print "Found single entry: ", current
+        if last != ":":
+            print "Found single entry: ", current
             final.append(current.replace(":",''))
         #Dict with single entry
         elif last == ":" and second != ":" and count+1 != len(entries):
-            #print "Found single dict!"
+            print "Found single dict!"
             final.append({current.replace(":",''):entries[count+1]})
             count = count + 1
         #Dict with multiple entries
         elif last == ":" and second == ":" and count+1 != len(entries):
-            #print "Found multiple dict:", current
+            '''
+            Have to perform getEntry on each subsection of the breakpoints
+            '''
+            print "Found multiple dict:", current
             head = current
-            breaker = [i for i,x in enumerate(entries[count::]) if x == "/"][-1] if "/" in entries[count::] else len(entries)
-            #print "Breaker: ", breaker, "\nStarting new getEntry for: ", entries[count:breaker+count]
-            temp = getEntry(entries[count:breaker+count])
-            #print "Equation breakup: ", temp
-            final.append({current:temp})
-            count = count + breaker
+            openers = [i for i,x in enumerate(entries[count::]) if x.endswith("::")] 
+            print "Dict openers: ", openers
+            breakers = [i for i,x in enumerate(entries[count::]) if x == "/"] if "/" in entries[count::] else [len(entries)]
+            print "Dict breakers: ", breakers
+            if len(breakers) < len(openers):
+                breakers.append(len(entries))
+            print "Breakers: ", breakers, ", count: ", count, "\nStarting new getEntry for: ", entries[count:breakers[-1]+count]
+            '''
+            Compare openers/breakers to get correct combination sets
+            '''
+            breaks = dictNesting(openers, breakers)
+            '''
+            temp = getEntry(entries[count:breakers[-1]+count])
+            print "Equation breakup: ", temp
+            temp = {current:temp}
+            print "Result: ", temp
+            final.append(temp)
+            '''
+            head = 0
+            segments = []
+            for breakPoint in breaks:
+                temp = getEntry(entries[head:breakPoint])
+                print "getEntry: ", temp
+                head = breakPoint
+                print "Current: ", current
+                print "Final: ", final,"\n---"
+                success = 0
+                if len(final) > 0:
+                    for item in final:
+                        if current in item.keys():
+                            print "final[0]: ", item
+                            print "final[0][current]: ", item[current]
+                            item[current].append(temp[0])
+                            success = 1
+                if success == 0:
+                    final.append({current:temp})
+            count = count + breakers[-1]
         elif count+1 == len(entries):
             print "End of args. I'm going to create a dict with an empty list."
             final.append({current.replace(":",''):[]})
@@ -175,6 +210,19 @@ def getEntry(entries):
     '''
     return final
 
-def readAhead(entries):
-    print "Reading for continuous dict"
-
+def dictNesting(openers, breakers):
+    print "Openers: ", openers, "\nBreakers: ", breakers
+    oc = 0
+    bc = 0
+    breaks = []
+    while oc < len(openers):
+        print openers[oc]
+        print breakers[bc]
+        if openers[oc] > breakers[bc]:
+            breaks.append(breakers[bc])
+            bc = bc + 1
+        oc = oc + 1
+    if bc < len(breakers):
+        breaks.append(breakers[-1])
+    print "Breaks: ", breaks
+    return breaks

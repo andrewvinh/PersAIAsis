@@ -20,7 +20,10 @@ def printRows(name):
     print "Current: ", current
 
 def combineCols(name):
-    wb = openpyxl.load_workbook(name)
+    '''
+    Should add ability to read sheet name and columns through args
+    '''
+    wb = openpyxl.load_workbook(name[0])
     print wb.get_sheet_names()
     ws = wb['Combined']
     current = "None"
@@ -40,4 +43,4 @@ def combineCols(name):
         row[2].value = temp
         count+=1
         print row[2].value
-    wb.save(name)
+    wb.save(name[0])

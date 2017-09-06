@@ -12,7 +12,7 @@ def reverse(x):
     return r
 
 #Reverse all characters order
-def flip(x):
+def mirror(x):
     f = open(x, 'r')
     t = f.read()
     f = t[::-1]

@@ -78,8 +78,12 @@ def addEntry(entryList):
         #print "Getting entries: ", orgArgs
         #print "Header: ", db[header]
         for item in orgArgs:
-            print item
+            print "getEntry Item: ", item
+            print "db[header]: ", db[header]
             if item != "" and len(item) != 0:
+                '''
+                Check if item is in db[header] and append to header or db[header][item] if needed
+                '''
                 db[header].append(item)
         writeDB(db)
     else:
@@ -184,7 +188,8 @@ def getEntry(entries):
                         if current in item.keys():
                             print "final[0]: ", item
                             print "final[0][current]: ", item[current]
-                            item[current].append(temp[0])
+                            if temp[0] != item[current]:
+                                item[current].append(temp[0])
                             success = 1
                 if success == 0:
                     final.append({current:temp})

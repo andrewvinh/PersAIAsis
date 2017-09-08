@@ -1,6 +1,6 @@
 {
-   "dirs": "tools db testing",
-   "modules": "text pmath pexcel pread database test",
+   "dirs": "tools db testing logger",
+   "modules": "text pmath pexcel pread database plogger test",
    "filePaths": ".py .xlsx .txt .doc .docx .cljs .clj .java .rtf .dmg",
    "picturePaths": ".png .gif .jpg .pdf", 
    "webPaths": ".com .org .us .net .gov .go .ly"

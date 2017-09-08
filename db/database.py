@@ -49,18 +49,19 @@ def addEntry(entryList):
     count = 0
     if header in db.keys():
         orgArgs = getEntry(entryList)
-        #print "Getting entries: ", orgArgs
+        print "orgArgs: ", orgArgs
         #print "Header: ", db[header]
-        for item in orgArgs:
+        for key in orgArgs.keys():
+            item = orgArgs[key]
             redAdd(db[header], item)
-            print "getEntry Item: ", item
+            print "getEntry Item: ", item 
             print "Item.keys: ", item.keys()
             print "Header: ", header
             print "db[header]: ", db[header]
             if item != "" and len(item) != 0:
                 print "Found matching dict: ", header if any(header in d for d in entryList) else "Not a dict!"
                 key = item.keys()[0]
-                db[header][0][key] = item[key]
+                db[header][key] = item[key]
             '''
             redAdd for each item in orgArgs to reduce comparisons to one dict at a time
             '''
@@ -106,11 +107,11 @@ def getEntry(entries):
     Or don't fix what ain't broke? 
     Hmm...
     '''
-    print "Entries before cutting: ", entries
     entries = entries[1::]
-    print "After cutting: ", entries
-    final = []
+    final = {}
     count = 0
+    print "Entries before cutting: ", entries
+    print "After cutting: ", entries
     while count < len(entries):
         #print "Count: ", count
         current = entries[count]
@@ -122,25 +123,25 @@ def getEntry(entries):
         #Single entry
         if last != ":":
             print "Found single entry: ", current
-            final.append(current.replace(":",''))
+            final["misc"] = final["misc"] + current.replace(":",'')
         #Dict with single entry
         elif last == ":" and second != ":" and count+1 != len(entries):
             print "Found single dict!"
-            final.append({current.replace(":",''):entries[count+1]})
+            final[current.replace(":",'')] = entries[count+1]
             count = count + 1
         #Dict with multiple entries
         elif last == ":" and second == ":" and count+1 != len(entries):
             '''
             Have to perform getEntry on each subsection of the breakpoints
             '''
-            print "Found multiple dict:", current
+            
             head = current
             openers = [i for i,x in enumerate(entries[count::]) if x.endswith("::")] 
-            print "Dict openers: ", openers
             breakers = [i for i,x in enumerate(entries[count::]) if x == "/"] if "/" in entries[count::] else [len(entries)]
-            print "Dict breakers: ", breakers
             if len(breakers) < len(openers):
                 breakers.append(len(entries))
+            print "Found multiple dict:", current
+            print "Openers: ", openers
             print "Breakers: ", breakers, ", count: ", count, "\nStarting new getEntry for: ", entries[count:breakers[-1]+count]
             '''
             Compare openers/breakers to get correct combination sets
@@ -157,11 +158,12 @@ def getEntry(entries):
             segments = []
             for breakPoint in breaks:
                 temp = getEntry(entries[head:breakPoint])
-                print "getEntry: ", temp
                 head = breakPoint
+                print "getEntry: ", temp
                 print "Current: ", current
                 print "Final: ", final,"\n---"
                 success = 0
+                '''
                 if len(final) > 0:
                     for item in final:
                         if current in item.keys():
@@ -170,35 +172,56 @@ def getEntry(entries):
                             if temp[0] != item[current]:
                                 item[current].append(temp[0])
                             success = 1
+                '''
+                if len(final) > 0:
+                    for key in temp.keys():
+                        final[current][key] = temp[key]
+                        success = 1
                 if success == 0:
-                    final.append({current:temp})
+                    final[current] = temp
+                
             count = count + breakers[-1]
         elif count+1 == len(entries):
             print "End of args. I'm going to create a dict with an empty list."
-            final.append({current.replace(":",''):[]})
+            final[current.replace(":",'')] = {}
         count = count + 1
+    print "Returning final: ", final
     return final
 
 def dictNesting(openers, breakers):
     print "Openers: ", openers, "\nBreakers: ", breakers
     oc = 0
     bc = 0
+    nested = 0
     breaks = []
-    while oc < len(openers):
+    while oc < len(openers) and bc < len(breakers):
         print openers[oc]
         print breakers[bc]
         if openers[oc] > breakers[bc]:
-            breaks.append(breakers[bc])
-            bc = bc + 1
-        oc = oc + 1
+            print "Found break! Breaker: ", breakers[bc], " Opener: ", openers[oc]
+            print "Initial nested: ", nested
+            nested = nested - 1
+            if nested == 0:
+                breaks.append(breakers[bc])
+            else: 
+                bc = bc + 1
+        else:
+            print "Nested opener."
+            nested = nested + 1
+            oc = oc + 1
     if bc < len(breakers):
+        print "Reached end of openers. "
         breaks.append(breakers[-1])
     print "Breaks: ", breaks
     return breaks
 
-def redAdd(branch, entries):
-    print "redAdd Branch: ", branch
+def redAdd(branches, entries):
+    print "redAdd Branch: ", branches
     print "redAdd Entries: ", entries
-    keys = entries.keys()
-    for key in keys:
+    bkeys = branches.keys()
+    ekeys = entries.keys()
+    for key in ekeys:
         print "Working on: ", key
+        if key in bkeys:
+            #redAdd(branches[key], entries[key])
+            print "Key in bkeys"

@@ -5,7 +5,7 @@ localDB = "/Users/andrewvinh/Development/db/db.txt"
 def writeDB(newDB):
     with open(localDB,'w') as f:
         f.write(json.dumps(newDB, sort_keys=False, indent=2))
-    print "New DB: ", newDB
+    #print "New DB: ", newDB
 
 def loadDB(*args):
     db = {}
@@ -41,51 +41,30 @@ def deleteHeader(header):
     return db
 
 def addEntry(entryList):
+    print "addEntry entryList: ", entryList
     header = entryList[0]
     values = entryList[1::]
     #print "Attempting to add \"", values, "\" to ", header
     db = loadDB()
     count = 0
     if header in db.keys():
-        '''
-        while count < len(values)-1:
-            print "Count: ", count
-            value = values[count]
-            vLen = len(value)
-            print "Addition value: ", value
-            #Single dict addition
-            last = value[vLen-1]
-            print "Last Value: ", last
-            if last == ":":
-                if value[vLen-2] == ":":
-                    print "Found dict with multiple entries"
-                    
-                else:
-                    print "Found single dict"
-                    if count+1 != vLen:
-                        temp = {value:values[count+1]}
-                        print "Single dict value: ", temp
-                        db[header].append(temp)
-                        count = count + 1
-            #Single entry addition
-            elif value[vLen-1] != ":":
-                print "Found single entry"
-                db[header].append(value)
-            count = count + 1
-        writeDB(db)
-        '''
         orgArgs = getEntry(entryList)
         #print "Getting entries: ", orgArgs
         #print "Header: ", db[header]
         for item in orgArgs:
+            redAdd(db[header], item)
             print "getEntry Item: ", item
+            print "Item.keys: ", item.keys()
+            print "Header: ", header
             print "db[header]: ", db[header]
             if item != "" and len(item) != 0:
-                '''
-                Check if item is in db[header] and append to header or db[header][item] if needed
-                '''
-                db[header].append(item)
-        writeDB(db)
+                print "Found matching dict: ", header if any(header in d for d in entryList) else "Not a dict!"
+                key = item.keys()[0]
+                db[header][0][key] = item[key]
+            '''
+            redAdd for each item in orgArgs to reduce comparisons to one dict at a time
+            '''
+            writeDB(db)
     else:
         print "Header was not found in DB! No changes made =["
     return db
@@ -198,21 +177,6 @@ def getEntry(entries):
             print "End of args. I'm going to create a dict with an empty list."
             final.append({current.replace(":",''):[]})
         count = count + 1
-    '''
-    print "Would you like to see the long or short version?"
-    lors = raw_input().strip()
-    print "Okay, let's see... Here we go!"
-    if lors == "Short" or lors == "short":
-        print "Final: ", final
-    elif lors == "Long" or lors == "long":
-        print "~~~~~"
-        for item in final:
-            print item
-        print "~~~~~"
-    else:
-        print "Wait hmm.. I didn't quite get that.. try again?"
-    print "Length: ", len(final)
-    '''
     return final
 
 def dictNesting(openers, breakers):
@@ -231,3 +195,10 @@ def dictNesting(openers, breakers):
         breaks.append(breakers[-1])
     print "Breaks: ", breaks
     return breaks
+
+def redAdd(branch, entries):
+    print "redAdd Branch: ", branch
+    print "redAdd Entries: ", entries
+    keys = entries.keys()
+    for key in keys:
+        print "Working on: ", key

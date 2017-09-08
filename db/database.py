@@ -51,9 +51,9 @@ def addEntry(entryList):
         orgArgs = getEntry(entryList)
         print "orgArgs: ", orgArgs
         #print "Header: ", db[header]
+        redAdd(db, header, orgArgs)
         for key in orgArgs.keys():
-            item = orgArgs[key]
-            redAdd(db[header], item)
+            item = orgArgs[key]    
             print "getEntry Item: ", item 
             print "Item.keys: ", item.keys()
             print "Header: ", header
@@ -215,13 +215,14 @@ def dictNesting(openers, breakers):
     print "Breaks: ", breaks
     return breaks
 
-def redAdd(branches, entries):
+def redAdd(branches, header, entries):
     print "redAdd Branch: ", branches
     print "redAdd Entries: ", entries
     bkeys = branches.keys()
     ekeys = entries.keys()
-    for key in ekeys:
-        print "Working on: ", key
-        if key in bkeys:
-            #redAdd(branches[key], entries[key])
-            print "Key in bkeys"
+    '''
+    db[branch] is empty and we can add straight into db
+    '''
+    if len(bkeys) == 0:
+        for key in ekeys:
+            branches[key] = entries[key]

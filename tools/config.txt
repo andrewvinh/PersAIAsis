@@ -1,5 +1,5 @@
 {
-   "dirs": "tools db testing logger",
+   "dirs": "Development/tools Development/db Development/testing Development/logger",
    "modules": "text pmath pexcel pread database plogger test",
    "filePaths": ".py .xlsx .txt .doc .docx .cljs .clj .java .rtf .dmg",
    "picturePaths": ".png .gif .jpg .pdf", 

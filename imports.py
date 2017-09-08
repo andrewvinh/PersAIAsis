@@ -15,7 +15,7 @@ f.close()
 
 #Adding personal directories to path
 for pdir in pdirs:
-    sys.path.insert(0,str("/Users/andrewvinh/Development/"+pdir+"/"))
+    sys.path.insert(0,str("/Users/andrewvinh/"+pdir+"/"))
 
 '''
 It is important that we import the module at the highest level

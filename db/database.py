@@ -51,7 +51,11 @@ def addEntry(entryList):
         orgArgs = getEntry(entryList)
         print "orgArgs: ", orgArgs
         #print "Header: ", db[header]
-        #redAdd(db, header, orgArgs)
+        redResult = redAdd(db[header], orgArgs)
+        print "redResult: ", redResult
+        db[header] = redResult
+        writeDB(db)
+        '''
         for key in orgArgs.keys():
             item = orgArgs[key]    
             
@@ -63,10 +67,8 @@ def addEntry(entryList):
             if item != "" and len(item) != 0:
                 #print "Found matching dict: ", header if any(header in d for d in entryList) else "Not a dict!"
                 db[header] = {key:item}
-            '''
-            redAdd for each item in orgArgs to reduce comparisons to one dict at a time
-            '''
             writeDB(db)
+        '''
     else:
         print "Header was not found in DB! No changes made =["
     return db
@@ -219,14 +221,20 @@ def dictNesting(openers, breakers):
     #print "Breaks: ", breaks
     return breaks
 
-def redAdd(branches, header, entries):
+def redAdd(branches, entries):
     print "redAdd Branch: ", branches
     print "redAdd Entries: ", entries
     bkeys = branches.keys()
     ekeys = entries.keys()
-    '''
-    db[branch] is empty and we can add straight into db
-    '''
     if len(bkeys) == 0:
+        print "Branch is empty and we can add straight into db"
         for key in ekeys:
             branches[key] = entries[key]
+    else:
+        for key in ekeys:
+            if key in bkeys:
+                redAdd(branches[key], entries[key])
+            else:
+                branches[key] = entries[key]
+    print "Returning branch: ", branches
+    return branches

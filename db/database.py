@@ -5,7 +5,7 @@ localDB = "/Users/andrewvinh/Development/db/db.txt"
 def writeDB(newDB):
     with open(localDB,'w') as f:
         f.write(json.dumps(newDB, sort_keys=False, indent=2))
-    #print "New DB: ", newDB
+    print "Newly written DB: ", newDB
 
 def loadDB(*args):
     db = {}
@@ -22,7 +22,7 @@ def addHeader(headers):
     db = loadDB()
     for header in headers:
         if header not in db.keys():
-            db[header] = []
+            db[header] = {"Misc": []}
     else:
         print header, "already exists!" 
     writeDB(db)
@@ -52,7 +52,7 @@ def addEntry(entryList):
         print "orgArgs: ", orgArgs
         #print "Header: ", db[header]
         redResult = redAdd(db[header], orgArgs)
-        print "redResult: ", redResult
+        #print "redResult: ", redResult
         db[header] = redResult
         writeDB(db)
         '''
@@ -104,15 +104,9 @@ def deleteEntry(entryList):
     return db
 
 def getEntry(entries):
-    '''
-    Strange fucking situation with this entries list: I have to skip the first entry everytime. 
-    Maybe fix later? 
-    Or don't fix what ain't broke? 
-    Hmm...
-    '''
     #print "Entries before cutting: ", entries
     entries = entries[1::]
-    final = {}
+    final = {"Misc": []}
     count = 0
     #print "After cutting: ", entries
     while count < len(entries):
@@ -126,18 +120,14 @@ def getEntry(entries):
         #Single entry
         if last != ":":
             #print "Found single entry: ", current
-            final["misc"] = final["misc"] + current.replace(":",'')
+            final["Misc"].append(string.replace(current, ":", ''))
         #Dict with single entry
         elif last == ":" and second != ":" and count+1 != len(entries):
             #print "Found single dict!"
-            final[current.replace(":",'')] = entries[count+1]
+            final[string.replace(current, ":", '')] = entries[count+1]
             count = count + 1
         #Dict with multiple entries
         elif last == ":" and second == ":" and count+1 != len(entries):
-            '''
-            Have to perform getEntry on each subsection of the breakpoints
-            '''
-            
             head = current
             openers = [i for i,x in enumerate(entries[count::]) if x.endswith("::")] 
             breakers = [i for i,x in enumerate(entries[count::]) if x == "/"] if "/" in entries[count::] else [len(entries)]
@@ -149,14 +139,11 @@ def getEntry(entries):
             print "Breakers: ", breakers, ", count: ", count
             print "Starting new getEntry for: ", entries[count:breakers[-1]+count]
             '''
-            '''
-            Compare openers/breakers to get correct combination sets
-            '''
             breaks = dictNesting(openers, breakers)
             head = 0
             segments = []
             for breakPoint in breaks:
-                current = entries[head]
+                current = string.replace(entries[head], ':', '')
                 temp = getEntry(entries[head:breakPoint])
                 head = breakPoint
                 '''
@@ -164,22 +151,12 @@ def getEntry(entries):
                 print "Current: ", current
                 print "Final: ", final,"\n---"
                 '''
-                '''
-                if len(final) > 0:
-                    for item in final:
-                        if current in item.keys():
-                            print "final[0]: ", item
-                            print "final[0][current]: ", item[current]
-                            if temp[0] != item[current]:
-                                item[current].append(temp[0])
-                            success = 1
-                '''
                 if len(final) > 0:
                     for key in temp.keys():
                         #print "Key: ", key
                         final[current] = temp
                 else:
-                    print current, " is empty."
+                    #print current, " is empty."
                     final[current] = temp
             count = count + breakers[-1]
         elif count+1 == len(entries):
@@ -190,7 +167,6 @@ def getEntry(entries):
     return final
 
 def dictNesting(openers, breakers):
-    
     oc = 0
     bc = 0
     nested = 0
@@ -222,19 +198,27 @@ def dictNesting(openers, breakers):
     return breaks
 
 def redAdd(branches, entries):
+    
     print "redAdd Branch: ", branches
     print "redAdd Entries: ", entries
+    
     bkeys = branches.keys()
     ekeys = entries.keys()
     if len(bkeys) == 0:
-        print "Branch is empty and we can add straight into db"
+        #print "Branch is empty and we can add straight into db"
         for key in ekeys:
+            key = string.replace(key, ':', '')
             branches[key] = entries[key]
     else:
         for key in ekeys:
-            if key in bkeys:
+            key = string.replace(key, ':', '')
+            if key == "Misc":
+                print "Found misc"
+                #branches[key].append(entries[key]) if key in bkeys else entries[key]
+                branches[key] = entries[key] if key not in bkeys else branches[key] + entries[key]
+            elif key in bkeys:
                 redAdd(branches[key], entries[key])
             else:
                 branches[key] = entries[key]
-    print "Returning branch: ", branches
+    #print "Returning branch: ", branches
     return branches

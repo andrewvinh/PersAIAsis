@@ -6,6 +6,7 @@ import inspect
 import openpyxl
 import datetime
 import json
+import string
 
 f = open('/Users/andrewvinh/Development/tools/config.txt','r')
 loaded = json.load(f)

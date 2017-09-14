@@ -5,7 +5,7 @@ localDB = "/Users/andrewvinh/Development/db/db.txt"
 def writeDB(newDB):
     with open(localDB,'w') as f:
         f.write(json.dumps(newDB, sort_keys=False, indent=2))
-    print "Newly written DB: ", newDB
+    #print "Newly written DB: ", newDB
 
 def loadDB(*args):
     db = {}
@@ -133,13 +133,14 @@ def getEntry(entries):
             breakers = [i for i,x in enumerate(entries[count::]) if x == "/"] if "/" in entries[count::] else [len(entries)]
             if len(breakers) < len(openers):
                 breakers.append(len(entries))
+            breaks = dictNesting(openers, breakers)
             '''
             print "---\nFound multiple dict:", current
             print "Openers: ", openers
             print "Breakers: ", breakers, ", count: ", count
+            print "Break points: ", breaks
             print "Starting new getEntry for: ", entries[count:breakers[-1]+count]
             '''
-            breaks = dictNesting(openers, breakers)
             head = 0
             segments = []
             for breakPoint in breaks:
@@ -177,14 +178,14 @@ def dictNesting(openers, breakers):
     print breakers[bc]
     '''
     while oc < len(openers) and bc < len(breakers):
+        #print "Nested: ", nested
         if openers[oc] > breakers[bc]:
-            '''
-            print "Found break! Breaker: ", breakers[bc], " Opener: ", openers[oc]
-            print "Initial nested: ", nested
-            '''
-            nested = nested - 1
+            #print "Found break! Breaker: ", breakers[bc], " Opener: ", openers[oc]
+            nested = nested - 1 if nested >= 1 else 0
             if nested == 0:
+                print "Nested = 0. Adding: ", openers[oc]
                 breaks.append(openers[oc])
+                oc = oc + 1
             else: 
                 bc = bc + 1
         else:
@@ -194,14 +195,13 @@ def dictNesting(openers, breakers):
     if bc < len(breakers):
         #print "Reached end of openers. "
         breaks.append(breakers[-1])
-    #print "Breaks: ", breaks
     return breaks
 
 def redAdd(branches, entries):
-    
+    ''' 
     print "redAdd Branch: ", branches
     print "redAdd Entries: ", entries
-    
+    '''
     bkeys = branches.keys()
     ekeys = entries.keys()
     if len(bkeys) == 0:
@@ -213,8 +213,6 @@ def redAdd(branches, entries):
         for key in ekeys:
             key = string.replace(key, ':', '')
             if key == "Misc":
-                print "Found misc"
-                #branches[key].append(entries[key]) if key in bkeys else entries[key]
                 branches[key] = entries[key] if key not in bkeys else branches[key] + entries[key]
             elif key in bkeys:
                 redAdd(branches[key], entries[key])

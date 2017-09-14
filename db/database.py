@@ -41,7 +41,7 @@ def deleteHeader(header):
     return db
 
 def addEntry(entryList):
-    print "addEntry entryList: ", entryList
+    #print "addEntry entryList: ", entryList
     header = entryList[0]
     values = entryList[1::]
     #print "Attempting to add \"", values, "\" to ", header
@@ -49,7 +49,7 @@ def addEntry(entryList):
     count = 0
     if header in db.keys():
         orgArgs = getEntry(entryList)
-        print "orgArgs: ", orgArgs
+        #print "orgArgs: ", orgArgs
         #print "Header: ", db[header]
         redResult = redAdd(db[header], orgArgs)
         #print "redResult: ", redResult
@@ -115,16 +115,21 @@ def getEntry(entries):
         #print "Current: ", current
         last = current[len(current)-1]
         second = current[len(current)-2]
+        current = string.replace(current, ":", '')
         if current == "/":
             break
         #Single entry
-        if last != ":":
+        if current == "String":
+            print "What is the sentence you'd like to add?"
+            statement = raw_input()
+            final["Misc"].append(statement)
+        elif last != ":":
             #print "Found single entry: ", current
-            final["Misc"].append(string.replace(current, ":", ''))
+            final["Misc"].append(current)
         #Dict with single entry
         elif last == ":" and second != ":" and count+1 != len(entries):
             #print "Found single dict!"
-            final[string.replace(current, ":", '')] = entries[count+1]
+            final[current] = entries[count+1]
             count = count + 1
         #Dict with multiple entries
         elif last == ":" and second == ":" and count+1 != len(entries):
@@ -161,8 +166,8 @@ def getEntry(entries):
                     final[current] = temp
             count = count + breakers[-1]
         elif count+1 == len(entries):
-            print "End of args. I'm going to create a dict with an empty list."
-            final[current.replace(":",'')] = {}
+            print "I'm going to create a dict with an empty list!"
+            final[current] = {"Misc": []}
         count = count + 1
     #print "Returning final: ", final
     return final

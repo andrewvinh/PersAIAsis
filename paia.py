@@ -33,7 +33,7 @@ def newRead():
             method = getattr(myClass, myFunc)
             method(val)
         except AttributeError:
-            print ("Unable to call selected function with inputArgs")
+            print ("Unable to call selected function with inputArgs:")
         
 
 def oldRead():

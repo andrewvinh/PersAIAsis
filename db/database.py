@@ -225,3 +225,39 @@ def redAdd(branches, entries):
                 branches[key] = entries[key]
     #print "Returning branch: ", branches
     return branches
+
+def lookup(full):
+    print "Full: ", full
+    #paths = string.replace(full[0], ".", " ").replace(full[0],"/"," ").split(" ") if len(full) == 1 else full
+    if len(full) == 1:
+        paths = full[0]
+        for ch in ["/","."]:
+            if ch in paths:
+                paths = paths.replace(ch," ") 
+        paths = paths.split(" ")
+    else:
+        paths = full
+    print "Paths: ", paths
+    current = loadDB()
+    try:
+        for path in paths:
+            current = current[path]
+        print paths[-1], "data:"
+        if len(current.keys()) > 1:
+            print "-----\nObjects: " 
+        for key in current.keys():
+            if key != "Misc":
+                print key
+        if len(current["Misc"]) > 0:
+            print "-----\nSingles: " 
+        for item in current["Misc"]:
+            print item
+        print "-----"
+        select = ""
+        print "Would you like to lookup further?"
+        select = raw_input()
+        if select.lower() != "no":
+            lookup([full[0] + "." + select])
+    except KeyError:
+        print "Key not found! (Note: Keys are case-sensitive)"
+    

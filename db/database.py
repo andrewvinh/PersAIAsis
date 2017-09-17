@@ -188,7 +188,7 @@ def dictNesting(openers, breakers):
             #print "Found break! Breaker: ", breakers[bc], " Opener: ", openers[oc]
             nested = nested - 1 if nested >= 1 else 0
             if nested == 0:
-                print "Nested = 0. Adding: ", openers[oc]
+                #print "Nested = 0. Adding: ", openers[oc]
                 breaks.append(openers[oc])
                 oc = oc + 1
             else: 
@@ -203,10 +203,10 @@ def dictNesting(openers, breakers):
     return breaks
 
 def redAdd(branches, entries):
-    ''' 
+     
     print "redAdd Branch: ", branches
     print "redAdd Entries: ", entries
-    '''
+    
     bkeys = branches.keys()
     ekeys = entries.keys()
     if len(bkeys) == 0:
@@ -218,15 +218,20 @@ def redAdd(branches, entries):
         for key in ekeys:
             key = string.replace(key, ':', '')
             if key == "Misc":
-                branches[key] = entries[key] if key not in bkeys else branches[key] + entries[key]
+                print "BMisc: ", branches["Misc"]
+                print "EMisc: ", entries["Misc"]
+                for item in entries[key]:
+                    if item not in branches[key]:
+                        branches[key] = branches[key] + entries[key]
+                #branches[key] = entries[key] if key not in bkeys else branches[key] + entries[key]
             elif key in bkeys:
                 redAdd(branches[key], entries[key])
             else:
                 branches[key] = entries[key]
                 if key in branches["Misc"]:
-                    print "Converting ", key, " to dict!"
                     branches["Misc"].remove(key)
     #print "Returning branch: ", branches
+    #print json.dumps(branches)
     return branches
 
 def lookup(full):

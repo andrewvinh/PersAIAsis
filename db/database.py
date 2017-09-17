@@ -223,6 +223,9 @@ def redAdd(branches, entries):
                 redAdd(branches[key], entries[key])
             else:
                 branches[key] = entries[key]
+                if key in branches["Misc"]:
+                    print "Converting ", key, " to dict!"
+                    branches["Misc"].remove(key)
     #print "Returning branch: ", branches
     return branches
 

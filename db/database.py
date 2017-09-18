@@ -129,7 +129,12 @@ def getEntry(entries):
         #Dict with single entry
         elif last == ":" and second != ":" and count+1 != len(entries):
             #print "Found single dict!"
-            final[current] = entries[count+1]
+            if entries[count+1] != "String":
+                final[current] = entries[count+1]
+            else:
+                print "What is the sentence you'd like to add?"
+                statement = raw_input()
+                final[current] = statement
             count = count + 1
         #Dict with multiple entries
         elif last == ":" and second == ":" and count+1 != len(entries):

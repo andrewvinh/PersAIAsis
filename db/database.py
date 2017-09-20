@@ -208,10 +208,10 @@ def dictNesting(openers, breakers):
     return breaks
 
 def redAdd(branches, entries):
-     
+    ''' 
     print "redAdd Branch: ", branches
     print "redAdd Entries: ", entries
-    
+    '''
     bkeys = branches.keys()
     ekeys = entries.keys()
     if len(bkeys) == 0:
@@ -223,8 +223,10 @@ def redAdd(branches, entries):
         for key in ekeys:
             key = string.replace(key, ':', '')
             if key == "Misc":
+                '''
                 print "BMisc: ", branches["Misc"]
                 print "EMisc: ", entries["Misc"]
+                '''
                 for item in entries[key]:
                     if item not in branches[key]:
                         branches[key] = branches[key] + entries[key]
@@ -270,7 +272,7 @@ def lookup(full):
         print "Would you like to lookup further?"
         select = raw_input()
         if select.lower() != "no":
-            lookup([full[0] + "." + select])
+            lookup(paths + [select])
     except KeyError:
         print "Key not found! (Note: Keys are case-sensitive)"
     

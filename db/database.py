@@ -120,48 +120,43 @@ def getEntry(entries):
             break
         #Single entry
         if current == "String":
-            print "What is the sentence you'd like to add?"
-            statement = raw_input()
-            final["Misc"].append(statement)
+            final["Misc"].append(stringArg())
         elif last != ":":
-            #print "Found single entry: ", current
+            print "Found single entry: ", current
             final["Misc"].append(current)
         #Dict with single entry
         elif last == ":" and second != ":" and count+1 != len(entries):
-            #print "Found single dict!"
-            if entries[count+1] != "String":
-                final[current] = entries[count+1]
-            else:
-                print "What is the sentence you'd like to add?"
-                statement = raw_input()
-                final[current] = statement
+            print "Found single dict: ", current
+            if entries[count+1] == "String":
+                entries[count+1] = stringArg()    
+            final[current] = {"Misc" : [entries[count+1]]}
             count = count + 1
         #Dict with multiple entries
         elif last == ":" and second == ":" and count+1 != len(entries):
             head = current
             openers = [i for i,x in enumerate(entries[count::]) if x.endswith("::")] 
             breakers = [i for i,x in enumerate(entries[count::]) if x == "/"] if "/" in entries[count::] else [len(entries)]
-            if len(breakers) < len(openers):
-                breakers.append(len(entries))
             breaks = dictNesting(openers, breakers)
-            '''
+            ender = breakers[-1]+count
+            
             print "---\nFound multiple dict:", current
             print "Openers: ", openers
             print "Breakers: ", breakers, ", count: ", count
             print "Break points: ", breaks
-            print "Starting new getEntry for: ", entries[count:breakers[-1]+count]
-            '''
+            print "Ender: ", ender
+            print "Starting new getEntry for: ", entries[count:ender]
+            
             head = 0
             segments = []
             for breakPoint in breaks:
                 current = string.replace(entries[head], ':', '')
                 temp = getEntry(entries[head:breakPoint])
                 head = breakPoint
-                '''
+                
                 print "getEntry: ", temp
                 print "Current: ", current
                 print "Final: ", final,"\n---"
-                '''
+                
                 if len(final) > 0:
                     for key in temp.keys():
                         #print "Key: ", key
@@ -276,3 +271,15 @@ def lookup(full):
     except KeyError:
         print "Key not found! (Note: Keys are case-sensitive)"
     
+def stringArg():
+    print "Enter/Paste your content. Ctrl-D to save it."
+    temp = ""
+    while True:
+        try:
+            line = raw_input("")
+            temp = temp + line + "\n"
+        except EOFError:
+            break
+    return temp
+
+

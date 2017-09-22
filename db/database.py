@@ -40,7 +40,42 @@ def deleteHeader(header):
     loadDB()
     return db
 
-def addEntry(entryList):
+def addEntry(entries):
+    db = loadDB()
+    openers = [i for i,x in enumerate(entries) if x.endswith("::")] 
+    breakers = [i for i,x in enumerate(entries) if x == "/"] if "/" in entries else [len(entries)]
+    if openers[-1] > breakers[-1]:
+        breakers.append(len(entries))
+    breaks = dictNesting(openers, breakers)
+
+    print "Entries: ", entries
+    print "Breaks: ", breaks
+
+    c = 0
+    bc = 0
+    header = "Misc"
+    while c < len(entries):
+        last = entries[c][-1]
+        second = entries[c][len(entries[c])-2]
+        print "Header: ", header
+        print "C: ", c, " bc: ", bc
+        if c in openers:
+            print "Found opener: ", [entries[c], breakers[bc]]
+            print "New header: ", entries[c]
+            header = entries[c]
+            if bc < len(breakers):
+                bc = bc + 1
+                
+        elif last != ":":
+            print "Single item: ", entries[c]
+        elif second != ":":
+            print "Single dict: ", entries[c]
+        c = c + 1
+        print "-----"
+    
+
+
+def oldAddEntry(entryList):
     #print "addEntry entryList: ", entryList
     header = entryList[0]
     values = entryList[1::]

@@ -49,7 +49,6 @@ def addEntry(entries):
     breaks = dictNesting(openers, breakers)
 
     print "Entries: ", entries
-    print "Breaks: ", breaks
 
     c = 0
     bc = 0
@@ -60,12 +59,15 @@ def addEntry(entries):
         print "Header: ", header
         print "C: ", c, " bc: ", bc
         if c in openers:
-            print "Found opener: ", [entries[c], breakers[bc]]
-            print "New header: ", entries[c]
-            header = entries[c]
+            header = string.replace(entries[c],":","")
+            seg = entries[c:breakers[bc]]
+            print "Found opener: ", [c, breakers[bc]]
+            print "New header: ", header 
+            print "DB[header]: ", db[header] if header in db.keys() else ""
+            print "Segment: ", entries[c:breakers[bc]]
+            print "Get Entry: ", getEntry(seg)             
             if bc < len(breakers):
-                bc = bc + 1
-                
+                bc = bc + 1             
         elif last != ":":
             print "Single item: ", entries[c]
         elif second != ":":
@@ -238,10 +240,10 @@ def dictNesting(openers, breakers):
     return breaks
 
 def redAdd(branches, entries):
-    ''' 
+    
     print "redAdd Branch: ", branches
     print "redAdd Entries: ", entries
-    '''
+    
     bkeys = branches.keys()
     ekeys = entries.keys()
     if len(bkeys) == 0:

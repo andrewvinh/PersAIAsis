@@ -1,7 +1,6 @@
 from imports import *
 
 localDB = "/Users/andrewvinh/Development/db/db.txt"
-newDB = {"Misc":[]}
 
 def writeDB(newDB):
     with open(localDB,'w') as f:
@@ -18,6 +17,9 @@ def loadDB(*args):
     #print "Loaded DB: ", db
     return db
 
+def newDB():
+    return {"Misc":[]}
+
 def addEntry(entries):
     #db = loadDB()
     print "Entries: ", entries
@@ -26,11 +28,20 @@ def addEntry(entries):
         cur = entries[count]
         last = cur[len(cur)-1]
         second = cur[len(cur)-2]
-        final = copy.copy(newDB)
+        final = newDB()
         "Misc item"
         if second != ":":
-            print "Found misc item"
+            print "Found misc item: ", cur
             final["Misc"].append(cur) 
+        elif first == ":" and second != ":":
+            print "Found single dict: ", cur
+            cur = string.replace(cur, ":", '')
+            if cur.lower() == "string":
+                cur = raw_input()
+            if count < len(entries)-1:
+                print "Continuing"
+            else:
+                print "End of list. adding empty dict"
         count = count + 1
     print "Final: ", final
 

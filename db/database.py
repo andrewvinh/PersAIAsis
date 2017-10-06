@@ -33,7 +33,7 @@ def addEntry(entries):
         if second != ":":
             print "Found misc item: ", cur
             final["Misc"].append(cur) 
-        elif first == ":" and second != ":":
+        elif last == ":" and second != ":":
             print "Found single dict: ", cur
             cur = string.replace(cur, ":", '')
             if cur.lower() == "string":

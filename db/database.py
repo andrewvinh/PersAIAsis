@@ -1,6 +1,7 @@
 from imports import *
 
 localDB = "/Users/andrewvinh/Development/db/db.txt"
+newDB = {"Misc":[]}
 
 def writeDB(newDB):
     with open(localDB,'w') as f:
@@ -16,6 +17,22 @@ def loadDB(*args):
         writeDB({})
     #print "Loaded DB: ", db
     return db
+
+def addEntry(entries):
+    #db = loadDB()
+    print "Entries: ", entries
+    count = 0
+    while count < len(entries):
+        cur = entries[count]
+        last = cur[len(cur)-1]
+        second = cur[len(cur)-2]
+        final = copy.copy(newDB)
+        "Misc item"
+        if second != ":":
+            print "Found misc item"
+            final["Misc"].append(cur) 
+        count = count + 1
+    print "Final: ", final
 
 def addHeader(headers):
     print "Adding ", headers, " to local DB!"
@@ -40,7 +57,7 @@ def deleteHeader(header):
     loadDB()
     return db
 
-def addEntry(entries):
+def addEntry2(entries):
     db = loadDB()
     openers = [i for i,x in enumerate(entries) if x.endswith("::")] 
     breakers = [i for i,x in enumerate(entries) if x == "/"] if "/" in entries else [len(entries)]
@@ -64,18 +81,23 @@ def addEntry(entries):
             print "Found opener: ", [c, breakers[bc]]
             print "New header: ", header 
             print "DB[header]: ", db[header] if header in db.keys() else ""
-            print "Segment: ", entries[c:breakers[bc]]
+            print "Segment: ", seg
             print "Get Entry: ", getEntry(seg)             
             if bc < len(breakers):
                 bc = bc + 1             
+            c = breakers[bc]+1
+            print "New cur: ", entries[c] if c < len(entries) else entries[len(entries)-1]
+            c = breakers[bc]
         elif last != ":":
             print "Single item: ", entries[c]
         elif second != ":":
             print "Single dict: ", entries[c]
+
         c = c + 1
         print "-----"
     
-
+def redAdd(entries):
+    print "RedAdd Entries: ", entries
 
 def oldAddEntry(entryList):
     #print "addEntry entryList: ", entryList
@@ -239,7 +261,7 @@ def dictNesting(openers, breakers):
         breaks.append(breakers[-1])
     return breaks
 
-def redAdd(branches, entries):
+def oldRedAdd(branches, entries):
     
     print "redAdd Branch: ", branches
     print "redAdd Entries: ", entries

@@ -43,6 +43,7 @@ for lib in pmods:
         #fcalls.append({c[0]:mod.c[0]})
         #print c[0]
         globals()[c[0]] = c[0]
+print set(loaded["functions"]).symmetric_difference(set(functions))
 loaded["functions"] = functions
 pconfig.writeConfig(loaded)
 

@@ -2,7 +2,7 @@ from imports import *
 
 localDB = "/Users/andrewvinh/Development/db/db.txt"
 config = pconfig.getConfig()
-print "Config: ", config["functions"]
+#print "Config: ", config["functions"]
 #print "Bod: ", bod
 
 def writeDB(newDB):

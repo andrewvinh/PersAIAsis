@@ -2,6 +2,7 @@
 from imports import *
 
 #Current
+bod = pconfig.getConfig()
 #print "Bod: ", bod 
 
 def run():

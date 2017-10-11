@@ -1,8 +1,8 @@
 from imports import *
 
 localDB = "/Users/andrewvinh/Development/db/db.txt"
-#config = config.build()
-#print "Config: ", config
+config = pconfig.getConfig()
+print "Config: ", config["functions"]
 #print "Bod: ", bod
 
 def writeDB(newDB):

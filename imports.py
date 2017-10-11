@@ -21,21 +21,31 @@ for pdir in pdirs:
     sys.path.insert(0,temp)
     #os.path.expanduser(temp)
 #print "Dirs: ", sys.path
+
 '''
 It is important that we import the module at the highest level
 Functions from imports shall be called as MODULE.FUNCTION()
 This will avoid flooding the namespace
 '''
 #Personal libraries
+functions = []
 for lib in pmods:
     globals()[lib] = __import__(lib)
+    com = inspect.getmembers(globals()[lib], predicate=inspect.isfunction)
     '''
-    print "Importing: ", lib
-    print globals()[lib]
-    print "Functions: ", inspect.getmembers(globals()[lib], predicate=inspect.isfunction)
-    print [method for method in dir(lib) if callable(getattr(lib, method))]
-    print dir(lib)
+    print "Mod: ", mod
+    print globals()[mod]
+    print "Com: ", com
     '''
+    for c in com:
+        #print "Appending to functions: ", str(mod+"."+c[0])
+        functions.append(str(lib+"."+c[0]))
+        #fcalls.append({c[0]:mod.c[0]})
+        #print c[0]
+        globals()[c[0]] = c[0]
+loaded["functions"] = functions
+pconfig.writeConfig(loaded)
 
 #Build Config
-import config
+#import pconfig
+bod = pconfig.getConfig()

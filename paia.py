@@ -1,12 +1,8 @@
 #!/usr/local/bin python
 from imports import *
 
-#OLD!!!
-args = {'files': [],
-        'commands': []}
-
 #Current
-bod = config.build()
+#print "Bod: ", bod 
 
 def run():
     if(len(sys.argv) > 0):

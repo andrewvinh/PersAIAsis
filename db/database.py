@@ -1,6 +1,9 @@
 from imports import *
 
 localDB = "/Users/andrewvinh/Development/db/db.txt"
+#config = config.build()
+#print "Config: ", config
+#print "Bod: ", bod
 
 def writeDB(newDB):
     with open(localDB,'w') as f:
@@ -24,24 +27,32 @@ def addEntry(entries):
     #db = loadDB()
     print "Entries: ", entries
     count = 0
+    final = newDB()
     while count < len(entries):
         cur = entries[count]
         last = cur[len(cur)-1]
         second = cur[len(cur)-2]
-        final = newDB()
-        "Misc item"
-        if second != ":":
+        
+        #Misc item
+        if second != ":" and last != ":":
             print "Found misc item: ", cur
             final["Misc"].append(cur) 
         elif last == ":" and second != ":":
             print "Found single dict: ", cur
             cur = string.replace(cur, ":", '')
             if cur.lower() == "string":
+                print "#", count, " string?"
                 cur = raw_input()
             if count < len(entries)-1:
                 print "Continuing"
             else:
                 print "End of list. adding empty dict"
+        '''
+        else:
+            for op in gconfig["dividers"].keys():
+                print op
+            print "Found multi dict: ", cur
+        '''
         count = count + 1
     print "Final: ", final
 

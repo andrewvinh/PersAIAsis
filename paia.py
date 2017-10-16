@@ -20,11 +20,15 @@ def run():
 def newRead():
     #print "newRead: ", bod["inputArgs"]
     for key,val in bod["inputArgs"].items():
-        #print key
-        #print val
+        print "Key: ", key, "; Val: ", val
         myClass = __import__(key.split(".")[0])
         myFunc = key.split(".")[1]
         #print "myClass: ", myClass, "\nmyFunc: ", myFunc
+        '''
+        
+        Separate the method call and use it in a toolbox. Can be used in here and db
+
+        '''
         method = None
         try:
             method = getattr(myClass, myFunc)

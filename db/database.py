@@ -43,16 +43,19 @@ def addEntry(entries):
             if cur.lower() == "string":
                 print "#", count, " string?"
                 cur = raw_input()
-            if count < len(entries)-1:
-                print "Continuing"
+            if count < len(entries)-2:
+                print "grabbing next item: ", entries[count+1]
+                count = count + 1
+                final[cur] = entries[count]
             else:
                 print "End of list. adding empty dict"
-        '''
+        #elif last == ":" and second == ":":
+        #    print "Found multi dict: ", cur
         else:
-            for op in gconfig["dividers"].keys():
-                print op
-            print "Found multi dict: ", cur
-        '''
+            for opener in config["dividers"].keys():
+                if opener in cur:
+                    print "Found opener: ", cur, ", FWDing to: ", config["dividers"][opener]
+                    break
         count = count + 1
     print "Final: ", final
 

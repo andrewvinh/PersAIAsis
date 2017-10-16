@@ -43,6 +43,7 @@ for lib in pmods:
         #fcalls.append({c[0]:mod.c[0]})
         #print c[0]
         globals()[c[0]] = c[0]
+#diff = [x for x in loaded["functions"] if x not in functions] 
 diff = set(loaded["functions"]).symmetric_difference(set(functions))
 print ("Editing functions: ", diff) if len(diff) > 0 else ""
 loaded["functions"] = functions

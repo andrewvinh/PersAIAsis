@@ -10,7 +10,7 @@ import string
 import copy
 
 path = os.path.dirname(os.path.abspath(__file__))
-print "Path: ", path
+#print "Path: ", path
 #Changes to config path must be reflected in config.py
 with open(path+'/tools/localConfig.txt','r') as f:
     loaded = json.load(f)
@@ -19,11 +19,10 @@ with open(path+'/tools/localConfig.txt','r') as f:
 
 #Adding personal directories to path
 for pdir in pdirs:
-    print pdir
     temp = str(path+"/"+pdir+"/")
     sys.path.insert(0,temp)
     #os.path.expanduser(temp)
-print "Dirs: ", sys.path
+#print "Dirs: ", sys.path
 
 '''
 It is important that we import the module at the highest level
@@ -48,7 +47,7 @@ for lib in pmods:
         globals()[c[0]] = c[0]
 #diff = [x for x in loaded["functions"] if x not in functions] 
 diff = set(loaded["functions"]).symmetric_difference(set(functions))
-print ("Editing functions: ", diff) if len(diff) > 0 else ""
+#print ("Editing functions: ", diff) if len(diff) > 0 else ""
 loaded["functions"] = functions
 pconfig.writeConfig(loaded)
 

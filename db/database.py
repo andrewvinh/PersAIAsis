@@ -1,6 +1,7 @@
 from imports import *
 
-localDB = "/Users/andrewvinh/Development/db/db.txt"
+path = os.path.dirname(os.path.abspath(__file__))
+localDB = path + "/db.txt"
 config = pconfig.getConfig()
 #print "Config: ", config["functions"]
 #print "Bod: ", bod
@@ -321,7 +322,7 @@ def oldRedAdd(branches, entries):
     return branches
 
 def lookup(full):
-    print "Full: ", full
+    #print "Full: ", full
     #paths = string.replace(full[0], ".", " ").replace(full[0],"/"," ").split(" ") if len(full) == 1 else full
     if len(full) == 1:
         paths = full[0]
@@ -331,7 +332,7 @@ def lookup(full):
         paths = paths.split(" ")
     else:
         paths = full
-    print "Paths: ", paths
+    #print "Paths: ", paths
     current = loadDB()
     try:
         for path in paths:

@@ -3,7 +3,7 @@ import os
 
 #Changes to config path must be reflected in imports.py
 path = os.path.dirname(os.path.abspath(__file__))
-localConfig = path + '/tools/localConfig.txt'
+localConfig = path + '/localConfig.txt'
 
 def getConfig():
     bod = {}

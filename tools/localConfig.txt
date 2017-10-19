@@ -1,5 +1,5 @@
 {
-  "dirs": "PersAIAsis PersAIAsis/tools PersAIAsis/db PersAIAsis/testing PersAIAsis/logger", 
+  "dirs": "tools db testing logger", 
   "functions": [
     "ptext.find", 
     "ptext.mirror", 

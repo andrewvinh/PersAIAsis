@@ -9,18 +9,21 @@ import json
 import string
 import copy
 
+path = os.path.dirname(os.path.abspath(__file__))
+print "Path: ", path
 #Changes to config path must be reflected in config.py
-with open('/Users/andrewvinh/Development/tools/localConfig.txt','r') as f:
+with open(path+'/tools/localConfig.txt','r') as f:
     loaded = json.load(f)
     pdirs = loaded["dirs"].split()
     pmods = loaded["modules"].split()
 
 #Adding personal directories to path
 for pdir in pdirs:
-    temp = str("/Users/andrewvinh/"+pdir+"/")
+    print pdir
+    temp = str(path+"/"+pdir+"/")
     sys.path.insert(0,temp)
     #os.path.expanduser(temp)
-#print "Dirs: ", sys.path
+print "Dirs: ", sys.path
 
 '''
 It is important that we import the module at the highest level

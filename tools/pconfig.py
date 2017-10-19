@@ -1,7 +1,9 @@
 import json
+import os
 
 #Changes to config path must be reflected in imports.py
-localConfig = '/home/devmain/PersAIAsis/tools/localConfig.txt'
+path = os.path.dirname(os.path.abspath(__file__))
+localConfig = path + '/tools/localConfig.txt'
 
 def getConfig():
     bod = {}

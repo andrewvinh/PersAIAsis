@@ -12,7 +12,7 @@ def readArgs(argv, bod):
     for c in range(1,len(argv)):
         temp = argv[c]
         '''
-        print "Temp: ", temp
+        print "Temp: ", temp 
         print functions
         print temp in functions
     

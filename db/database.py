@@ -1,28 +1,8 @@
 from imports import *
 
-path = os.path.dirname(os.path.abspath(__file__))
-localDB = path + "/db.txt"
 config = pconfig.getConfig()
 #print "Config: ", config["functions"]
 #print "Bod: ", bod
-
-def writeDB(newDB):
-    with open(localDB,'w') as f:
-        f.write(json.dumps(newDB, sort_keys=False, indent=2))
-    #print "Newly written DB: ", newDB
-
-def loadDB(*args):
-    db = {}
-    if os.path.isfile(localDB):
-        with open(localDB,'r') as f:
-            db = json.load(f)
-    else:
-        writeDB({})
-    #print "Loaded DB: ", db
-    return db
-
-def newDB():
-    return {"Misc":[]}
 
 def addEntry(entries):
     #db = loadDB()

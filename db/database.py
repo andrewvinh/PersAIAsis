@@ -1,4 +1,7 @@
 from imports import *
+import pdata
+import panalyze
+
 
 config = pconfig.getConfig()
 #print "Config: ", config["functions"]
@@ -8,7 +11,7 @@ def addEntry(entries):
     #db = loadDB()
     print "Entries: ", entries
     count = 0
-    final = newDB()
+    final = pdata.newDB()
     while count < len(entries):
         cur = entries[count]
         last = cur[len(cur)-1]
@@ -36,6 +39,7 @@ def addEntry(entries):
             for opener in config["dividers"].keys():
                 if opener in cur:
                     print "Found opener: ", cur, ", FWDing to: ", config["dividers"][opener]
+                    panalyze.multiDict(entries[count::])
                     break
         count = count + 1
     print "Final: ", final
@@ -313,7 +317,7 @@ def lookup(full):
     else:
         paths = full
     #print "Paths: ", paths
-    current = loadDB()
+    current = pdata.getLocalDB()
     try:
         for path in paths:
             current = current[path]

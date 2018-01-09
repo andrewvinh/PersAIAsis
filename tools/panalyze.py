@@ -7,3 +7,7 @@ def sAnalyze(entries):
 
 def multiDict(entries):
     print "Making new dict with: ", entries
+    for count in range(len(entries)):
+        cur = entries[count]
+        print cur
+    return entries

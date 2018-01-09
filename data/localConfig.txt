@@ -1,5 +1,5 @@
 {
-  "dirs": "tools db testing logger", 
+  "dirs": "tools db testing logger data", 
   "functions": [
     "ptext.find", 
     "ptext.mirror", 
@@ -11,7 +11,6 @@
     "pread.readArgs", 
     "pconfig.checkConfig", 
     "pconfig.getConfig", 
-    "pconfig.writeConfig", 
     "database.addEntry", 
     "database.addEntry2", 
     "database.addHeader", 
@@ -19,26 +18,28 @@
     "database.deleteHeader", 
     "database.dictNesting", 
     "database.getEntry", 
-    "database.loadDB", 
     "database.lookup", 
-    "database.newDB", 
     "database.oldAddEntry", 
     "database.oldRedAdd", 
     "database.redAdd", 
     "database.stringArg", 
-    "database.writeDB", 
     "plogger.addLog", 
     "plogger.loadLog", 
     "plogger.writeLog", 
     "panalyze.multiDict", 
-    "panalyze.sAnalyze"
+    "panalyze.sAnalyze", 
+    "pdata.getLocalConfig", 
+    "pdata.getLocalDB", 
+    "pdata.newDB", 
+    "pdata.updateDB", 
+    "pdata.writeConfig"
   ], 
   "webPaths": ".com .org .us .net .gov .go .ly", 
   "dividers": {
     "string": "analyze.sAnalyze", 
     "::": "analyze.multiDict"
   }, 
-  "modules": "ptext pmath pexcel pread pconfig database plogger panalyze test", 
+  "modules": "ptext pmath pexcel pread pconfig database plogger panalyze test pdata", 
   "filePaths": ".py .xlsx .txt .doc .docx .cljs .clj .java .rtf .dmg", 
   "picturePaths": ".png .gif .jpg .pdf"
 }

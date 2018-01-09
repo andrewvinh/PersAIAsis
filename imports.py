@@ -12,7 +12,7 @@ import copy
 path = os.path.dirname(os.path.abspath(__file__))
 #print "Path: ", path
 #Changes to config path must be reflected in config.py
-with open(path+'/tools/localConfig.txt','r') as f:
+with open(path+'/data/localConfig.txt','r') as f:
     loaded = json.load(f)
     pdirs = loaded["dirs"].split()
     pmods = loaded["modules"].split()
@@ -39,6 +39,7 @@ for lib in pmods:
     print globals()[mod]
     print "Com: ", com
     '''
+    #Adding functions to config and setting functions values in globals
     for c in com:
         #print "Appending to functions: ", str(mod+"."+c[0])
         functions.append(str(lib+"."+c[0]))
@@ -49,5 +50,5 @@ for lib in pmods:
 diff = set(loaded["functions"]).symmetric_difference(set(functions))
 #print ("Editing functions: ", diff) if len(diff) > 0 else ""
 loaded["functions"] = functions
-pconfig.writeConfig(loaded)
+pdata.writeConfig(loaded)
 

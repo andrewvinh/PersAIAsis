@@ -12,7 +12,7 @@ def run():
         print "Main bod: ", bod
         '''
         orgArgs = pread.readArgs(sys.argv, bod)
-        db = database.loadDB()
+        db = pdata.getLocalDB()
         newRead()
     else:
         print "No commands found. What would you like?"
@@ -20,7 +20,7 @@ def run():
 def newRead():
     #print "newRead: ", bod["inputArgs"]
     for key,val in bod["inputArgs"].items():
-        print "Key: ", key, "; Val: ", val
+        #print "Key: ", key, "; Val: ", val
         myClass = __import__(key.split(".")[0])
         myFunc = key.split(".")[1]
         #print "myClass: ", myClass, "\nmyFunc: ", myFunc

@@ -1,34 +1,26 @@
-import json
-import os
+from imports import *
+import pdata
 
-#Changes to config path must be reflected in imports.py
-path = os.path.dirname(os.path.abspath(__file__))
-localConfig = path + '/localConfig.txt'
-
-def getConfig():
-    bod = {}
-    with open(localConfig,'r') as f:
-        bod = json.load(f)
-    return bod
-
-def writeConfig(bod):
-    with open(localConfig, 'w') as f:
-        f.write(json.dumps(bod, sort_keys=False, indent=2))
+def getConfig(*args):
+    local = pdata.getLocalConfig() 
+    #print "Received local config: ", local
+    return local
 
 def checkConfig(self,**kwargs):
-    if "path" in kwargs:
-        print kwargs["path"]
+    #Implement multi-level searching
+    if "data" in kwargs:
+        print kwargs["key"], ": ", kwargs["data"]
     else:
-        with open(localConfig,'r') as f:
-            bod = json.load(f)
-            print bod.keys()
-            select = ""
-            print "Would you like to lookup further?"
-            select = raw_input()
-            if select.lower() != "no":
-                try:
-                    temp = bod[select]
-                    kwargs = {"path":temp}
-                    checkConfig(self,**kwargs)
-                except KeyError as e:
-                    print "Key not found =["
+        bod = pdata.getLocalConfig()
+        #print "Bod: ", bod
+        print "Config: ", bod.keys()
+        select = ""
+        print "Would you like to lookup further?"
+        select = raw_input()
+        if select.lower() != "no":
+            try:
+                temp = bod[select]
+                kwargs = {"data":temp, "key":select}
+                checkConfig(self,**kwargs)
+            except KeyError as e:
+                print "Key not found =["

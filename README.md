@@ -1,6 +1,6 @@
 # Personal Artificial Intelligence Assistant
 Persy for short =].
-I am a personal project planned and implemented by Andrew B. Vinh. What a guy >.<
+I am a personal project planned and perfected by Andrew B. Vinh. What a guy >.<"
 
 Persy is a Personal AI Assistant meant to help organize daily routines and schedules. With functionality to learn vocabulary, store information, plan events, reach out with SMS and hopefully many more things, Persy will be happy to help!
 

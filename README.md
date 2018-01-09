@@ -1,7 +1,8 @@
-# PersAI Assiss
-This is a personal project started, brainstormed, built and maintained by Andrew B. Vinh. 
+# Personal Artificial Intelligence Assistant
+Persy for short =].
+I am a personal project planned and implemented by Andrew B. Vinh. What a guy >.<
 
-PersAI Assiss or PAI Assiss is a personal AI assistant meant to help organize daily routines and schedules. With functionality to learn vocabulary, store information, plan events, reach out with SMS and hopefully many more things, PAI Assiss will be happy to help!
+Persy is a Personal AI Assistant meant to help organize daily routines and schedules. With functionality to learn vocabulary, store information, plan events, reach out with SMS and hopefully many more things, Persy will be happy to help!
 
 
 How to:

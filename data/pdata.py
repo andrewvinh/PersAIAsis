@@ -37,3 +37,14 @@ def getLocalConfig():
 def writeConfig(bod):
     with open(localConfig, 'w') as f:
         f.write(json.dumps(bod, sort_keys=False, indent=2))
+
+def callPFunc(handler, thruArgs):
+    method = None
+    try:
+        pclass = __import__(handler.split(".")[0])
+        pfunc = handler.split(".")[1]
+        method = getattr(pclass, pfunc)
+        return method(thruArgs)
+        #break;time this
+    except AttributeError:
+        print "Unable to call ", handler

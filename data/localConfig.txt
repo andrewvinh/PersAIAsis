@@ -28,6 +28,7 @@
     "plogger.writeLog", 
     "panalyze.multiDict", 
     "panalyze.sAnalyze", 
+    "pdata.callPFunc", 
     "pdata.getLocalConfig", 
     "pdata.getLocalDB", 
     "pdata.newDB", 
@@ -36,8 +37,8 @@
   ], 
   "webPaths": ".com .org .us .net .gov .go .ly", 
   "dividers": {
-    "string": "analyze.sAnalyze", 
-    "::": "analyze.multiDict"
+    "string": "panalyze.sAnalyze", 
+    "::": "panalyze.multiDict"
   }, 
   "modules": "ptext pmath pexcel pread pconfig database plogger panalyze test pdata", 
   "filePaths": ".py .xlsx .txt .doc .docx .cljs .clj .java .rtf .dmg", 

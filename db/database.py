@@ -38,8 +38,10 @@ def addEntry(entries):
         else:
             for opener in config["dividers"].keys():
                 if opener in cur:
-                    print "Found opener: ", cur, ", FWDing to: ", config["dividers"][opener]
-                    panalyze.multiDict(entries[count::])
+                    handler = config["dividers"][opener]
+                    print "Found opener: ", cur, ", FWDing to: ", handler
+                    temp = pdata.callPFunc(handler, entries[count::])
+                    print "Return after pfunc: ", temp
                     break
         count = count + 1
     print "Final: ", final

@@ -7,14 +7,14 @@ config = pconfig.getConfig()
 #print "Config: ", config["functions"]
 #print "Bod: ", bod
 
-def addEntry(entries):
+def newRedAdd(entries):
     #db = loadDB()
     print "Entries: ", entries
     count = 0
     final = pdata.newDB()
     while count < len(entries):
         cur = entries[count]
-        last = cur[len(cur)-1]
+        last = cur[-1]
         second = cur[len(cur)-2]
         
         #Misc item
@@ -35,7 +35,7 @@ def addEntry(entries):
                 print "End of list. adding empty dict"
         #elif last == ":" and second == ":":
         #    print "Found multi dict: ", cur
-        else:
+        else: 
             for opener in config["dividers"].keys():
                 if opener in cur:
                     handler = config["dividers"][opener]

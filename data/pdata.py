@@ -34,6 +34,13 @@ def getLocalConfig():
         bod = json.load(f)
     return bod
 
+def getConfig(name):
+    bod = {}
+    with open(localConfig,'r') as f:
+        bod = json.load(f)
+    print "Config: ", bod
+    return bod
+
 def writeConfig(bod):
     with open(localConfig, 'w') as f:
         f.write(json.dumps(bod, sort_keys=False, indent=2))

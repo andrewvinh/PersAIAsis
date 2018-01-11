@@ -18,7 +18,7 @@
     "database.dictNesting", 
     "database.getEntry", 
     "database.lookup", 
-    "database.multiDict", 
+    "database.newRedAdd", 
     "database.oldAddEntry", 
     "database.oldRedAdd", 
     "database.redAdd", 
@@ -30,6 +30,7 @@
     "panalyze.closeDict", 
     "panalyze.sAnalyze", 
     "pdata.callPFunc", 
+    "pdata.getConfig", 
     "pdata.getLocalConfig", 
     "pdata.getLocalDB", 
     "pdata.newDB", 
@@ -39,7 +40,8 @@
   "webPaths": ".com .org .us .net .gov .go .ly", 
   "dividers": {
     "string": "panalyze.sAnalyze", 
-    "::": "panalyze.multiDict"
+    "::": "panalyze.multiDict", 
+    "String": "panalyze.sAnalyze"
   }, 
   "modules": "ptext pmath pexcel pread pconfig database plogger panalyze test pdata", 
   "filePaths": ".py .xlsx .txt .doc .docx .cljs .clj .java .rtf .dmg", 

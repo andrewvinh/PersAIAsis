@@ -5,16 +5,23 @@ from imports import *
 def sAnalyze(entries):
     print "Analyzing: ", entries
 
+"""
+Check items individually
+Cycle through dividers to check. pfunc the func
+If string, recv string, then check if dict
+If multi, recv both finalized dict and next starting position
+"""
 def addEntry(entries):
     print "Making new dict with: ", entries
     count = 0
     final = []
+    divs = pdata.getConfig("dividers")
     while count < len(entries):
         cur = entries[count]
         print cur
         if "::" in cur:
             count = closeDict(entries, count)
-        elif ":" in cur:
+        elif cur[-1] == ":":
             if count < len(entries):
                 print "Single dict: ", cur, " Next: ", entries[count+1]
             else:
@@ -33,15 +40,14 @@ def closeDict(entries, count):
             ops = ops + 1
         else:
             for x in range(cur2.count("/")):
-                print "Found closer"
+                print "Found closer: ", cur2
                 ops = ops - 1
             if ops <= 0:
-                print "Reached end of dict: ", cont, " Count: ", count, " Cont: ", cont
+                print "Closed the dict: ", cont, " Count: ", count, " Cont: ", cont
                 count = cont
                 cont = cont + 1
                 break
         cont = cont + 1
         if cont == len(entries):
             print "Reached end of args. Cur: ", count, " Ops: ", ops, " Cont: ", cont 
-    print "Count: ", count, " Cont: ", cont
     return count

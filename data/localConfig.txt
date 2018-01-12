@@ -1,5 +1,5 @@
 {
-  "dirs": "tools db testing logger data", 
+  "dirs": "tools db testing logger data schema", 
   "functions": [
     "ptext.find", 
     "ptext.mirror", 
@@ -43,7 +43,7 @@
     "::": "panalyze.multiDict", 
     "String": "panalyze.sAnalyze"
   }, 
-  "modules": "ptext pmath pexcel pread pconfig database plogger panalyze test pdata", 
+  "modules": "ptext pmath pexcel pread pconfig database plogger panalyze pdata test schema", 
   "filePaths": ".py .xlsx .txt .doc .docx .cljs .clj .java .rtf .dmg", 
   "picturePaths": ".png .gif .jpg .pdf"
 }

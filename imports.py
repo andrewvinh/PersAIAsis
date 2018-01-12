@@ -19,7 +19,7 @@ with open(path+'/data/localConfig.txt','r') as f:
 
 #Adding personal directories to path
 for pdir in pdirs:
-    print "Setting pdir: ", pdir
+    #print "Setting pdir: ", pdir
     temp = str(path+"/"+pdir+"/")
     sys.path.insert(0,temp)
     #os.path.expanduser(temp)
@@ -35,11 +35,11 @@ functions = []
 for lib in pmods:
     globals()[lib] = __import__(lib)
     com = inspect.getmembers(globals()[lib], predicate=inspect.isfunction)
-    
+    """
     print "Mod: ", lib
     print globals()[lib]
     print "Com: ", com
-    
+    """
     #Adding functions to config and setting functions values in globals
     for c in com:
         #print "Appending to functions: ", str(mod+"."+c[0])

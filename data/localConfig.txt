@@ -34,8 +34,10 @@
     "pdata.getLocalConfig", 
     "pdata.getLocalDB", 
     "pdata.newDB", 
+    "pdata.redAdd", 
     "pdata.updateDB", 
-    "pdata.writeConfig"
+    "pdata.writeConfig", 
+    "schema.closedDict"
   ], 
   "webPaths": ".com .org .us .net .gov .go .ly", 
   "dividers": {
@@ -43,7 +45,7 @@
     "::": "panalyze.multiDict", 
     "String": "panalyze.sAnalyze"
   }, 
-  "modules": "ptext pmath pexcel pread pconfig database plogger panalyze pdata test schema", 
+  "modules": "ptext pmath pexcel pread pconfig database plogger panalyze pdata test schema psms", 
   "filePaths": ".py .xlsx .txt .doc .docx .cljs .clj .java .rtf .dmg", 
   "picturePaths": ".png .gif .jpg .pdf"
 }

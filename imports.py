@@ -8,6 +8,9 @@ import datetime
 import json
 import string
 import copy
+import importlib
+
+
 
 path = os.path.dirname(os.path.abspath(__file__))
 #print "Path: ", path
@@ -25,19 +28,42 @@ for pdir in pdirs:
     #os.path.expanduser(temp)
 #print "Dirs: ", sys.path
 
+#Personal libraries
+import ptext
+import pmath
+import pexcel
+import pread
+import pconfig
+import database
+import plogger
+import panalyze
+import pdata
+import test
+import schema
+
 '''
 It is important that we import the module at the highest level
 Functions from imports shall be called as MODULE.FUNCTION()
 This will avoid flooding the namespace
 '''
-#Personal libraries
+
 functions = []
 for lib in pmods:
     globals()[lib] = __import__(lib)
     com = inspect.getmembers(globals()[lib], predicate=inspect.isfunction)
     """
+    globals().update(importlib.import_module(lib).__dict__)
+
+    module = importlib.import_module(lib)
+
+    globals().update(
+        {n: getattr(module, n) for n in module.__all__} if hasattr(module, '__all__') 
+        else 
+        {k: v for (k, v) in module.__dict__.items() if not k.startswith('_')
+    })
+    com = inspect.getmembers(lib, predicate=inspect.isfunction)
+    
     print "Mod: ", lib
-    print globals()[lib]
     print "Com: ", com
     """
     #Adding functions to config and setting functions values in globals

@@ -26,8 +26,6 @@ def updateDB(newDB):
         f.write(json.dumps(newDB, sort_keys=False, indent=2))
     #print "Newly written DB: ", newDB
 
-
-
 def getLocalConfig():
     bod = {}
     with open(localConfig,'r') as f:
@@ -38,7 +36,7 @@ def getConfig(name):
     bod = {}
     with open(localConfig,'r') as f:
         bod = json.load(f)
-    print "Config: ", bod
+    #print "Config: ", bod
     return bod
 
 def writeConfig(bod):
@@ -55,3 +53,6 @@ def callPFunc(handler, thruArgs):
         #break;time this
     except AttributeError:
         print "Unable to call ", handler
+
+def redAdd(body, add):
+    print "Attemping to upload: ", add

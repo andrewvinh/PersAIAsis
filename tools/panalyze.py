@@ -99,7 +99,7 @@ def dictify(add):
         
 def singleDict(entries):
     cur = entries[0]
-    return {"Misc":entries[1]} if len(entries)>1 else pdata.newDB()
+    return {"Misc":checkString(entries[1])} if len(entries)>1 else pdata.newDB()
 
 def checkString(cur):
     replace = ""

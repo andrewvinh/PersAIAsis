@@ -54,5 +54,4 @@ def callPFunc(handler, thruArgs):
     except AttributeError:
         print "Unable to call ", handler
 
-def redAdd(body, add):
-    print "Attemping to upload: ", add
+

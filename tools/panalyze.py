@@ -19,13 +19,13 @@ def addEntry(entries):
     divs = pdata.getConfig("dividers")
     while count < len(entries):
         cur = entries[count]
-        print cur
+        print "AddEntry cur: ", cur 
         if "::" in cur:
             #Uses the closing position to determine full multi dict in entries
             closed = closeDict(entries, count)
-            mdict = entries[count:closed]
-            print "Closed dict: ", mdict
-            pdata.redAdd(pdata.getLocalDB(),mdict)
+            mdict = entries[count+1:closed]
+            print "Closed dict: ", mdict, " Closed: ", closed
+            dictify(mdict)
             count = closed
         elif cur[-1] == ":":
             if count < len(entries):
@@ -37,7 +37,7 @@ def addEntry(entries):
 
 #Returns the closing position of a new dict in entries
 def closeDict(entries, count):
-    print "Closing: ", entries[count]
+    #print "Closing: ", entries[count]
     ops = 1
     cont = count + 1
     final = schema.closedDict()
@@ -59,7 +59,32 @@ def closeDict(entries, count):
                 break
         cont = cont + 1
         if cont == len(entries):
-            print "Reached end of args. Cur: ", count, " Ops: ", ops, " Cont: ", cont 
+            print "Reached end of args."
             count = cont
     #print "Closing: ", count, " ", cont
     return count
+
+#Receives dict in list and transforms to full dict
+def dictify(add):
+    print "Attemping to dictify: ", add
+    final = pdata.newDB()
+    for count in range(len(add)):
+        cur = checkString(add[count], count)
+        print "Dictify cur: ", cur
+        #print "CheckString return: ", cur
+        add[count] = cur
+        if "::" in cur:
+            #temp = dictify(add[count:closeDict(add,count)])
+            print "Temp: ", temp
+        elif ":" in cur:
+            print "Single dict: ", cur
+        
+
+def checkString(cur, pos):
+    replace = ""
+    if "string" in cur.lower():
+        print "Found string! What would you like to replace in position ", pos, "?"
+        replace = raw_input()
+        replace = cur.lower().replace("string",replace)
+    return replace if replace else cur
+        

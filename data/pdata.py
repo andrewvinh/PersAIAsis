@@ -4,8 +4,7 @@ from imports import *
 path = os.path.dirname(os.path.abspath(__file__))
 localConfig = path + '/localConfig.txt'
 
-path = os.path.dirname(os.path.abspath(__file__))
-tpath = os.getcwd()
+#altPath = os.getcwd()
 localDB = path + "/db.txt"
 
 def newDB():

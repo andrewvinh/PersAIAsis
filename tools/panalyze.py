@@ -34,6 +34,8 @@ def addEntry(entries):
             cur = cur.replace(":","")
             if count < len(entries):
                 print "Single dict: ", cur, " Next: ", entries[count+1]
+                final[cur] = {"Misc":checkString(entries[count+1])}
+                count = count + 1
             else:
                 print "Empty dict: ", cur
         count = count + 1
@@ -82,10 +84,9 @@ def dictify(add):
             print "Temp: ", temp
         elif ":" in cur:
             cur = cur.replace(":","")
-            print "Single dict: ", cur
-            print "Single dict return: ", singleDict(add[count::])
+            #print "Single dict: ", cur
             if count+1 < len(add):
-                final[cur] = singleDict(add[count::])
+                final[cur] = {"Misc":checkString(add[count+1])}
                 count = count + 1
             else:
                 final[cur] = pdata.newDB()
@@ -97,10 +98,6 @@ def dictify(add):
     print "Final: ", final
     return final
         
-def singleDict(entries):
-    cur = entries[0]
-    return {"Misc":checkString(entries[1])} if len(entries)>1 else pdata.newDB()
-
 def checkString(cur):
     replace = ""
     if "string" in cur.lower():

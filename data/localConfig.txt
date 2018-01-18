@@ -32,7 +32,6 @@
     "panalyze.closeDict", 
     "panalyze.dictify", 
     "panalyze.sAnalyze", 
-    "panalyze.singleDict", 
     "pdata.callPFunc", 
     "pdata.getConfig", 
     "pdata.getLocalConfig", 

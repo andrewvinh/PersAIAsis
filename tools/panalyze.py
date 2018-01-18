@@ -15,24 +15,29 @@ If multi, recv both finalized dict and next starting position
 def addEntry(entries):
     print "Making new dict with: ", entries
     count = 0
-    final = []
+    final = {}
     divs = pdata.getConfig("dividers")
     while count < len(entries):
-        cur = entries[count]
+        cur = checkString(entries[count])
         print "AddEntry cur: ", cur 
         if "::" in cur:
+            cur = cur.replace(":","")
             #Uses the closing position to determine full multi dict in entries
             closed = closeDict(entries, count)
             mdict = entries[count+1:closed]
             print "Closed dict: ", mdict, " Closed: ", closed
-            dictify(mdict)
+            ret = dictify(mdict)
+            print "Return: ", ret
+            final[cur] = ret
             count = closed
         elif cur[-1] == ":":
+            cur = cur.replace(":","")
             if count < len(entries):
                 print "Single dict: ", cur, " Next: ", entries[count+1]
             else:
                 print "Empty dict: ", cur
         count = count + 1
+    print "AddEntry Final: ", final
     return entries
 
 #Returns the closing position of a new dict in entries
@@ -40,8 +45,6 @@ def closeDict(entries, count):
     #print "Closing: ", entries[count]
     ops = 1
     cont = count + 1
-    final = schema.closedDict()
-    t1 = final[0]
     while cont < len(entries): 
         cur = entries[cont]
         #print "Cur: ", cur, " Cont: ", cont
@@ -78,9 +81,11 @@ def dictify(add):
             #temp = dictify(add[count:closeDict(add,count)])
             print "Temp: ", temp
         elif ":" in cur:
+            cur = cur.replace(":","")
             print "Single dict: ", cur
+            print "Single dict return: ", singleDict(add[count::])
             if count+1 < len(add):
-                final[cur] = checkString(add[count+1])
+                final[cur] = singleDict(add[count::])
                 count = count + 1
             else:
                 final[cur] = pdata.newDB()
@@ -92,6 +97,9 @@ def dictify(add):
     print "Final: ", final
     return final
         
+def singleDict(entries):
+    cur = entries[0]
+    return {"Misc":entries[1]} if len(entries)>1 else pdata.newDB()
 
 def checkString(cur):
     replace = ""
@@ -100,4 +108,7 @@ def checkString(cur):
         replace = raw_input()
         replace = cur.lower().replace("string",replace)
     return replace if replace else cur
-        
+
+def cleanString(cur):
+    cur = cur.replace(":","")
+    return cur

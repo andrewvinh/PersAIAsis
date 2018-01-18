@@ -68,8 +68,9 @@ def closeDict(entries, count):
 def dictify(add):
     print "Attemping to dictify: ", add
     final = pdata.newDB()
-    for count in range(len(add)):
-        cur = checkString(add[count], count)
+    count = 0
+    while count < len(add):
+        cur = checkString(add[count])
         print "Dictify cur: ", cur
         #print "CheckString return: ", cur
         add[count] = cur
@@ -78,12 +79,24 @@ def dictify(add):
             print "Temp: ", temp
         elif ":" in cur:
             print "Single dict: ", cur
+            if count+1 < len(add):
+                final[cur] = checkString(add[count+1])
+                count = count + 1
+            else:
+                final[cur] = pdata.newDB()
+        else:
+            misc = final["Misc"]
+            misc.append(cur)
+            final["Misc"] = misc
+        count = count + 1
+    print "Final: ", final
+    return final
         
 
-def checkString(cur, pos):
+def checkString(cur):
     replace = ""
     if "string" in cur.lower():
-        print "Found string! What would you like to replace in position ", pos, "?"
+        print "Found string! What would you like to replace it with?"
         replace = raw_input()
         replace = cur.lower().replace("string",replace)
     return replace if replace else cur

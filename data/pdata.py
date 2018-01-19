@@ -16,7 +16,7 @@ def getLocalDB():
         with open(localDB,'r') as f:
             db = json.load(f)
     else:
-        updateDB({})
+        updateDB(newDB())
     #print "Loaded DB: ", db
     return db
 

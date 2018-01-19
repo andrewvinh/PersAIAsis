@@ -11,16 +11,20 @@ def newDB():
     return {"Misc":[]}
 
 def getLocalDB():
-    db = {}
+    db = newDB()
     if os.path.isfile(localDB):
         with open(localDB,'r') as f:
-            db = json.load(f)
+            try:
+                db = json.load(f)
+            except:
+                updateDB(db)
     else:
-        updateDB(newDB())
+        updateDB(db)
     #print "Loaded DB: ", db
     return db
 
 def updateDB(newDB):
+    print "Updating local DB!"
     with open(localDB,'w') as f:
         f.write(json.dumps(newDB, sort_keys=False, indent=2))
     #print "Newly written DB: ", newDB

@@ -34,7 +34,7 @@ def addEntry(entries):
             cur = cleanString(cur)
             if count+1 < len(entries):
                 #print "Single dict: ", cur, " Next: ", entries[count+1]
-                final[cur] = {"Misc":checkString(entries[count+1])}
+                final[cur] = {"Misc":[checkString(entries[count+1])]}
                 count = count + 1
             else:
                 print "Empty dict: ", cur
@@ -46,6 +46,7 @@ def addEntry(entries):
         count = count + 1
     final = redAdd(pdata.getLocalDB(),final)
     print "AddEntry Final: ", final
+    pdata.updateDB(final)
     return entries
 
 #Returns the closing position of a new dict in entries
@@ -90,7 +91,7 @@ def dictify(add):
             cur = cleanString(cur)
             #print "Single dict: ", cur
             if count+1 < len(add):
-                final[cur] = {"Misc":checkString(add[count+1])}
+                final[cur] = {"Misc":[checkString(add[count+1])]}
                 count = count + 1
             else:
                 final[cur] = pdata.newDB()

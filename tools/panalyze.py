@@ -44,8 +44,8 @@ def addEntry(entries):
             misc.append(cur)
             final["Misc"] = misc
         count = count + 1
-    #print "AddEntry Final: ", final
-    redAdd(pdata.getLocalDB(),final)
+    final = redAdd(pdata.getLocalDB(),final)
+    print "AddEntry Final: ", final
     return entries
 
 #Returns the closing position of a new dict in entries

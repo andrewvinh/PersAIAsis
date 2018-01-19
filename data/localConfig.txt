@@ -39,7 +39,8 @@
     "pdata.newDB", 
     "pdata.updateDB", 
     "pdata.writeConfig", 
-    "schema.closedDict"
+    "schema.closedDict", 
+    "psms.textMyself"
   ], 
   "webPaths": ".com .org .us .net .gov .go .ly", 
   "dividers": {

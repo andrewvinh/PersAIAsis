@@ -44,7 +44,8 @@ def addEntry(entries):
             misc.append(cur)
             final["Misc"] = misc
         count = count + 1
-    print "AddEntry Final: ", final
+    #print "AddEntry Final: ", final
+    redAdd(final)
     return entries
 
 #Returns the closing position of a new dict in entries
@@ -102,6 +103,17 @@ def dictify(add):
         count = count + 1
     #print "Final: ", final
     return final
+
+def redAdd(add):
+    print "Adding New: ", add
+    bod = pdata.getLocalDB()
+    print "Current local: ", bod
+    print "Misc: ", bod["Misc"]
+    for key in add.keys():
+        if key == "Misc":
+            bod["Misc"] = bod["Misc"] + add["Misc"]
+            print "New body[Misc]: ", bod["Misc"]
+        print "Key: ", key
         
 def checkString(cur):
     replace = ""

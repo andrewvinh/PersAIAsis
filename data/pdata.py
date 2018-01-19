@@ -12,6 +12,7 @@ def newDB():
 
 def getLocalDB():
     db = newDB()
+    print "DB: ",db
     if os.path.isfile(localDB):
         with open(localDB,'r') as f:
             try:

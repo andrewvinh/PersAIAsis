@@ -106,9 +106,6 @@ def addEntry2(entries):
 
         c = c + 1
         print "-----"
-    
-def redAdd(entries):
-    print "RedAdd Entries: ", entries
 
 def oldAddEntry(entryList):
     #print "addEntry entryList: ", entryList

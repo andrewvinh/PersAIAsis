@@ -1,5 +1,5 @@
 from imports import *
-
+import pdata
 
 
 config = pconfig.getConfig()
@@ -303,40 +303,7 @@ def oldRedAdd(branches, entries):
     #print json.dumps(branches)
     return branches
 
-def lookup(full):
-    #print "Full: ", full
-    #paths = string.replace(full[0], ".", " ").replace(full[0],"/"," ").split(" ") if len(full) == 1 else full
-    if len(full) == 1:
-        paths = full[0]
-        for ch in ["/","."]:
-            if ch in paths:
-                paths = paths.replace(ch," ") 
-        paths = paths.split(" ")
-    else:
-        paths = full
-    #print "Paths: ", paths
-    current = pdata.getLocalDB()
-    try:
-        for path in paths:
-            current = current[path]
-        print paths[-1], "data:"
-        if len(current.keys()) > 1:
-            print "-----\nObjects: " 
-        for key in current.keys():
-            if key != "Misc":
-                print key
-        if len(current["Misc"]) > 0:
-            print "-----\nSingles: " 
-        for item in current["Misc"]:
-            print item
-        print "-----"
-        select = ""
-        print "Would you like to lookup further?"
-        select = raw_input()
-        if select.lower() != "no":
-            lookup(paths + [select])
-    except KeyError:
-        print "Key not found! (Note: Keys are case-sensitive)"
+
     
 def stringArg():
     print "Enter/Paste your content. Ctrl-D to save it."

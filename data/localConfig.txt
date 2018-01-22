@@ -17,7 +17,6 @@
     "database.deleteHeader", 
     "database.dictNesting", 
     "database.getEntry", 
-    "database.lookup", 
     "database.newRedAdd", 
     "database.oldAddEntry", 
     "database.oldRedAdd", 
@@ -35,11 +34,17 @@
     "pdata.callPFunc", 
     "pdata.getConfig", 
     "pdata.getLocalConfig", 
+    "pdata.getLocalContacts", 
     "pdata.getLocalDB", 
+    "pdata.lookup", 
     "pdata.newDB", 
+    "pdata.resetDB", 
+    "pdata.updateContacts", 
     "pdata.updateDB", 
     "pdata.writeConfig", 
     "schema.closedDict", 
+    "psms.addContact", 
+    "psms.outText", 
     "psms.textMyself"
   ], 
   "webPaths": ".com .org .us .net .gov .go .ly", 
@@ -49,6 +54,7 @@
     "String": "panalyze.sAnalyze"
   }, 
   "modules": "ptext pmath pexcel pread pconfig database plogger panalyze pdata test schema psms", 
+  "twilioAuth": "938adea889ca04099087eed0c54c0f30", 
   "filePaths": ".py .xlsx .txt .doc .docx .cljs .clj .java .rtf .dmg", 
   "picturePaths": ".png .gif .jpg .pdf"
 }

@@ -45,7 +45,7 @@ def addEntry(entries):
             final["Misc"] = misc
         count = count + 1
     final = redAdd(pdata.getLocalDB(),final)
-    print "AddEntry Final: ", final
+    #print "AddEntry Final: ", final
     pdata.updateDB(final)
     return entries
 
@@ -85,8 +85,15 @@ def dictify(add):
         cur = checkString(add[count])
         add[count] = cur
         if "::" in cur:
-            #temp = dictify(add[count:closeDict(add,count)])
-            print "Temp: ", temp
+            cur = cleanString(cur)
+            newClose = closeDict(add,count)
+            newD = add[count+1:newClose]
+            #print "Cur: ", cur, " NewD: ", newD, " NewC: ", newClose
+            temp = dictify(newD)
+            #print "Temp: ", temp
+            count = newClose
+            #print "New Count: ", count
+            final[cur] = temp
         elif ":" in cur:
             cur = cleanString(cur)
             #print "Single dict: ", cur
@@ -104,23 +111,23 @@ def dictify(add):
     return final
 
 def redAdd(bod, add):
-    print "Adding New: ", add
-    print "Current local: ", bod
+    #print "Adding New: ", add
+    #print "Current local: ", bod
     bkeys = bod.keys()
     for akey in add.keys():
-        print "Key: ", akey
+        #print "Key: ", akey
         if akey == "Misc":
-            bod["Misc"] = bod["Misc"] + add["Misc"]
-            print "New body[Misc]: ", bod["Misc"]
+            bod["Misc"] = bod["Misc"] + list(set(add["Misc"]) - set(bod[akey]))
+            #print "New body[Misc]: ", bod["Misc"]
         else:
             if akey in bkeys:
-                print "Matching key!"
+                #print "Matching key!"
                 bod[akey] = redAdd(bod[akey],add[akey])
             else:
-                print "New entry: ", akey
+                #print "New entry: ", akey
                 bod[akey] = add[akey]
-                print "New body: ", bod
-    print "Finished bod: ", bod
+                #print "New body: ", bod
+    #print "Finished bod: ", bod
     return bod
             
         

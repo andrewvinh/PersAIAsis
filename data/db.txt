@@ -1,17 +1,9 @@
 {
-  "Test3": {
-    "Misc": [
-      "Hello", 
-      "hello2", 
-      "Hello3"
-    ], 
-    "TesterA1": {
-      "Misc": [
-        "Hello4"
-      ]
-    }
+  "Notes": {
+    "Misc": []
   }, 
-  "Misc": [
-    "MiscMeWitDatBooShit"
-  ]
+  "Misc": [], 
+  "Hiking": {
+    "Misc": []
+  }
 }

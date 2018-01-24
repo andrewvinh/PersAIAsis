@@ -28,9 +28,23 @@ def textMyself(words):
     body = ''.join(str(e+" ") for e in words))
     print(message.sid)"""
 
-def addContact(new):
-    print "Adding to contacts: ", new
+def addContact(add):
+    print "Add: ", add
+    new = schema.contact()
+    count = 0
+    while count < len(add):
+        if add[count] in new.keys():
+            if add[count] == "Relation":
+                new[add[count]].append(panalyze.checkString(add[count+1]))
+            else:
+                new[add[count]] = panalyze.checkString(add[count+1])
+                count = count + 1
+        count = count + 1
+
     conts = pdata.getLocalContacts()
+    conts[str(len(conts))] = new
+    pdata.updateContacts(conts)
+    
 
 def outText(words):
     print "Attempting to text: ", words[0]

@@ -138,8 +138,9 @@ def checkString(cur):
         print "Found string! What would you like to replace it with?"
         replace = raw_input()
         replace = cur.lower().replace("string",replace)
-    return replace if replace else cur
+    return cleanString(replace) if replace else cleanString(cur)
 
 def cleanString(cur):
-    cur = cur.replace(":","")
+    cur = cur.replace(":", "")
+    cur = cur.replace("_", " ")
     return cur

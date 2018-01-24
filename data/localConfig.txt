@@ -36,6 +36,7 @@
     "pdata.getLocalConfig", 
     "pdata.getLocalContacts", 
     "pdata.getLocalDB", 
+    "pdata.listContacts", 
     "pdata.lookup", 
     "pdata.newDB", 
     "pdata.resetDB", 
@@ -43,6 +44,7 @@
     "pdata.updateDB", 
     "pdata.writeConfig", 
     "schema.closedDict", 
+    "schema.contact", 
     "psms.addContact", 
     "psms.outText", 
     "psms.textMyself"

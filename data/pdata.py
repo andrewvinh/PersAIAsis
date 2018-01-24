@@ -51,7 +51,7 @@ def writeConfig(bod):
     with open(localConfig, 'w') as f:
         f.write(json.dumps(bod, sort_keys=False, indent=2))
 
-def getLocalContacts(*args):
+def getLocalContacts():
     bod = {}
     with open(localContacts,'r') as f:
         try:
@@ -64,6 +64,34 @@ def updateContacts(bod):
     print "Updating local contacts!"
     with open(localContacts,'w') as f:
         f.write(json.dumps(bod, sort_keys=False, indent=2))
+
+def listContacts(*args):
+    conts = getLocalContacts()
+    if len(args[0]) == 0:
+        print "Contacts: "
+        count = 1
+        while count < len(conts):
+            print "ID: ", count
+            print "Name: ", conts[str(count)]["Name"]
+            count = count + 1
+    else:
+        search = args[0][0]
+        print "Contact: ", search
+        if search in conts.keys():
+            for key in conts[search]:
+                print key, ": ", conts[search][key] 
+        else:
+            c2 = 1
+            while c2 < len(conts.keys()):
+                print "ID: ", c2 
+                for item in conts[str(c2)]:
+                    print item, ": ", conts[str(c2)][item]
+
+                c2 = c2 + 1
+                
+
+
+
 
 def callPFunc(handler, thruArgs):
     method = None

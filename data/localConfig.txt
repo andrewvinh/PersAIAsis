@@ -54,7 +54,8 @@
     "String": "panalyze.sAnalyze"
   }, 
   "modules": "ptext pmath pexcel pread pconfig database plogger panalyze pdata test schema psms", 
-  "twilioAuth": "938adea889ca04099087eed0c54c0f30", 
+  "twilAuth": "938adea889ca04099087eed0c54c0f30", 
   "filePaths": ".py .xlsx .txt .doc .docx .cljs .clj .java .rtf .dmg", 
+  "twilID": "ACcdd91d351f6c22afb8f270c755b0c8e1", 
   "picturePaths": ".png .gif .jpg .pdf"
 }

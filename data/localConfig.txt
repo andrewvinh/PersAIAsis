@@ -46,6 +46,9 @@
     "schema.closedDict", 
     "schema.contact", 
     "psms.addContact", 
+    "psms.addRelation", 
+    "psms.editContact", 
+    "psms.getID", 
     "psms.outText", 
     "psms.textMyself"
   ], 

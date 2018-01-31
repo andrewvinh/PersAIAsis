@@ -67,27 +67,18 @@ def updateContacts(bod):
 
 def listContacts(*args):
     conts = getLocalContacts()
-    if len(args[0]) == 0:
-        print "Contacts: "
-        count = 1
-        while count < len(conts):
-            print "ID: ", count
-            print "Name: ", conts[str(count)]["Name"]
-            count = count + 1
+    search = args[0]
+    print "Contact: ", search
+    if search in conts.keys():
+        for key in conts[search]:
+            print key, ": ", conts[search][key] 
     else:
-        search = args[0][0]
-        print "Contact: ", search
-        if search in conts.keys():
-            for key in conts[search]:
-                print key, ": ", conts[search][key] 
-        else:
-            c2 = 1
-            while c2 < len(conts.keys()):
-                print "ID: ", c2 
-                for item in conts[str(c2)]:
-                    print item, ": ", conts[str(c2)][item]
-
-                c2 = c2 + 1
+        count = 1
+        while count < len(conts.keys()):
+            print "ID: ", count
+            for item in conts[str(count)]:
+                print item, ": ", conts[str(count)][item]
+            count = count + 1
                 
 
 

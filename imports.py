@@ -40,6 +40,7 @@ import panalyze
 import pdata
 import test
 import schema
+import psms
 
 '''
 It is important that we import the module at the highest level

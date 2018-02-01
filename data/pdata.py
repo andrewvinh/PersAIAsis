@@ -1,12 +1,37 @@
 from imports import *
 
 #Changes to config path must be reflected in imports.py
+#altPath = os.getcwd()
 path = os.path.dirname(os.path.abspath(__file__))
 localConfig = path + '/localConfig.txt'
-
-#altPath = os.getcwd()
-localDB = path + "/db.txt"
 localContacts = path + "/contacts.txt"
+localDB = path + "/db.txt"
+
+localFiles = {
+        "localConfig":str(path + '/localConfig.txt'),
+        "localContacts":str(path + "/contacts.txt"),
+        "localDB":str(path + "/db.txt")
+        }
+
+def getLocal(branch):
+    branch = str("local" + branch[0])
+    if branch in localFiles.keys():
+        cur = localFiles[branch]
+        if os.path.isfile(cur):
+            with open(cur,'r') as f:
+                try:
+                    db = json.load(f)
+                    print "DB: ", db
+                    return db
+                except:
+                    fail = "Unable to find local file"
+                    print fail
+                    return fail
+    else:
+        fail = "Unable to find local file"
+        print fail
+        return fail
+
 
 def newDB():
     return {"Misc":[]}
@@ -83,7 +108,11 @@ def listContacts(*args):
 
 
 
-
+"""
+Args:
+1) ptext.find
+2) ["string"]
+"""
 def callPFunc(handler, thruArgs):
     method = None
     try:

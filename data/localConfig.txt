@@ -33,6 +33,7 @@
     "panalyze.sAnalyze", 
     "pdata.callPFunc", 
     "pdata.getConfig", 
+    "pdata.getLocal", 
     "pdata.getLocalConfig", 
     "pdata.getLocalContacts", 
     "pdata.getLocalDB", 

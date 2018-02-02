@@ -2,7 +2,7 @@ from imports import *
 import pdata
 
 
-config = pconfig.getConfig()
+config = pdata.getLocal("Config")
 #print "Config: ", config["functions"]
 #print "Bod: ", bod
 

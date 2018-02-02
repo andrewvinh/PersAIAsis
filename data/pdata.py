@@ -9,114 +9,68 @@ localConfig = path + '/localConfig.txt'
 localContacts = path + "/contacts.txt"
 localDB = path + "/db.txt"
 
+def newDB():
+    return {"Misc":[]}
+
 localFiles = {
-        "localConfig":str(path + '/localConfig.txt'),
-        "localContacts":str(path + "/contacts.txt"),
-        "localDB":str(path + "/db.txt")
+        "localConfig":[str(path + '/localConfig.txt'),{}],
+        "localContacts":[str(path + "/contacts.txt"),{}],
+        "localDB":[str(path + "/db.txt"),newDB()]
         }
 
 def getLocal(words):
     branch = str("local" + words)
     if branch in localFiles.keys():
-        cur = localFiles[branch]
+        cur = localFiles[branch][0]
         if os.path.isfile(cur):
             with open(cur,'r') as f:
-                try:
                     db = json.load(f)
                     return db
-                except:
-                    fail = "Unable to find local file"
-                    print fail
-                    return fail
+        else:
+            print "Unable to find local file. Making new one"
+            match = localFiles[branch][1]
+            #print "Branch: ", words, " Match: ", match
+            updateLocal(words,match)
     else:
-        fail = "Unable to find local file"
-        print fail
-        return fail
+        print "Local branch not found"
 
 def updateLocal(branch, new):
-    print "Updating local", branch
+    #print "Updating local", branch
     branch = str("local" + branch)
     if branch in localFiles.keys():
-        with open(localFiles[branch],'w') as f:
+        with open(localFiles[branch][0],'w') as f:
             f.write(json.dumps(new, sort_keys=False, indent=2))
-
-def newDB():
-    return {"Misc":[]}
-
-def getLocalDB():
-    db = newDB()
-    #print "DB: ",db
-    if os.path.isfile(localDB):
-        with open(localDB,'r') as f:
-            try:
-                db = json.load(f)
-            except:
-                updateDB(db)
-    else:
-        updateDB(db)
-    #print "Loaded DB: ", db
-    return db
-
-def updateDB(newDB):
-    print "Updating local DB!"
-    with open(localDB,'w') as f:
-        f.write(json.dumps(newDB, sort_keys=False, indent=2))
-    #print "Newly written DB: ", newDB
 
 def resetDB(*args):
     updateDB(newDB())
 
-def getLocalConfig():
-    bod = {}
-    with open(localConfig,'r') as f:
-        try:
-            bod = json.load(f)
-        except:
-            writeConfig(bod)
-    return bod
-
 def getConfig(name):
-    bod = getLocalConfig()
+    bod = getLocal("Config")
     return bod[name] if name in bod.keys() else bod
 
-def writeConfig(bod):
-    with open(localConfig, 'w') as f:
-        f.write(json.dumps(bod, sort_keys=False, indent=2))
-
-def getLocalContacts():
-    bod = {}
-    with open(localContacts,'r') as f:
-        try:
-            bod = json.load(f)
-        except:
-            updateContacts(bod)
-    return bod
-
-def updateContacts(bod):
-    print "Updating local contacts!"
-    with open(localContacts,'w') as f:
-        f.write(json.dumps(bod, sort_keys=False, indent=2))
-
 def listContacts(*args):
-    conts = getLocalContacts()
-    search = args[0][0].lower() if args[0] else ""
-    if search:
-        ids = psms.getID(search)
-        for item in sorted(ids):
-            print "User ID: ", item
-            print "Name: ", conts[item]["Name"]
-            print "Mobile: ", conts[item]["Mobile"]
-            print "Email: ", conts[item]["Email"]
-            print "Relation: ", conts[item]["Relation"]
+    conts = getLocal("Contacts")
+    if len(conts) == 0:
+        print "No contacts... loser."
     else:
-        count = 1
-        while count < len(conts.keys())-1: #-1 because of Contact -1: Twilio Bot
-            print "ID: ", count
-            print "Name: ", conts[str(count)]["Name"]
-            print "Mobile: ", conts[str(count)]["Mobile"]
-            print "Email: ", conts[str(count)]["Email"]
-            print "Relation: ", conts[str(count)]["Relation"]
-            count = count + 1
+        search = args[0][0].lower() if args[0] else ""
+        if search:
+            ids = psms.getID(search)
+            for item in sorted(ids):
+                print "User ID: ", item
+                print "Name: ", conts[item]["Name"]
+                print "Mobile: ", conts[item]["Mobile"]
+                print "Email: ", conts[item]["Email"]
+                print "Relation: ", conts[item]["Relation"]
+        else:
+            count = 1
+            while count < len(conts.keys())-1: #-1 because of Contact -1: Twilio Bot
+                print "ID: ", count
+                print "Name: ", conts[str(count)]["Name"]
+                print "Mobile: ", conts[str(count)]["Mobile"]
+                print "Email: ", conts[str(count)]["Email"]
+                print "Relation: ", conts[str(count)]["Relation"]
+                count = count + 1
 
 """
 Args:
@@ -146,7 +100,7 @@ def lookup(full):
     else:
         paths = full
     #print "Paths: ", paths
-    current = getLocalDB()
+    current = getLocal("DB")
     if len(paths) > 0:    
         try:
             for path in paths:

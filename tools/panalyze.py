@@ -19,15 +19,15 @@ def addEntry(entries):
     divs = pdata.getConfig("dividers")
     while count < len(entries):
         cur = checkString(entries[count])
-        #print "AddEntry cur: ", cur 
+        print "AddEntry cur: ", cur 
         if "::" in cur:
             cur = cleanString(cur)
             #Uses the closing position to determine full multi dict in entries
             closed = closeDict(entries, count)
             mdict = entries[count+1:closed]
-            #print "Closed dict: ", mdict, " Closed: ", closed
+            print "Closed dict: ", mdict, " Closed: ", closed
             ret = dictify(mdict)
-            #print "Return: ", ret
+            print "Return: ", ret
             final[cur] = ret
             count = closed
         elif cur[-1] == ":":
@@ -44,9 +44,9 @@ def addEntry(entries):
             misc.append(cur)
             final["Misc"] = misc
         count = count + 1
-    final = redAdd(pdata.getLocalDB(),final)
-    #print "AddEntry Final: ", final
-    pdata.updateDB(final)
+    final = redAdd(pdata.getLocal("DB"),final)
+    print "AddEntry Final: ", final
+    pdata.updateLocal("DB",final)
     return entries
 
 #Returns the closing position of a new dict in entries

@@ -2,7 +2,7 @@
 from imports import *
 
 #Current
-bod = pconfig.getConfig()
+bod = pdata.getLocal("Config")
 #print "Bod: ", bod 
 
 def run():
@@ -12,7 +12,7 @@ def run():
         print "Main bod: ", bod
         '''
         orgArgs = pread.readArgs(sys.argv, bod)
-        db = pdata.getLocalDB()
+        db = pdata.getLocal("DB")
         newRead()
     else:
         print "No commands found. What would you like?"

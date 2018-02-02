@@ -78,5 +78,5 @@ for lib in pmods:
 diff = set(loaded["functions"]).symmetric_difference(set(functions))
 #print ("Editing functions: ", diff) if len(diff) > 0 else ""
 loaded["functions"] = functions
-pdata.writeConfig(loaded)
+pdata.updateLocal("Config",loaded)
 

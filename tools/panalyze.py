@@ -85,7 +85,7 @@ def dictify(add):
         cur = checkString(add[count])
         add[count] = cur
         if "::" in cur:
-            cur = cleanString(cur)
+            cur = cleanString(add[count])
             newClose = closeDict(add,count)
             newD = add[count+1:newClose]
             #print "Cur: ", cur, " NewD: ", newD, " NewC: ", newClose
@@ -95,7 +95,7 @@ def dictify(add):
             #print "New Count: ", count
             final[cur] = temp
         elif ":" in cur:
-            cur = cleanString(cur)
+            cur = cleanString(add[count])
             #print "Single dict: ", cur
             if count+1 < len(add):
                 final[cur] = {"Misc":[checkString(add[count+1])]}
@@ -138,9 +138,10 @@ def checkString(cur):
         print "Found string! What would you like to replace it with?"
         replace = raw_input()
         replace = cur.lower().replace("string",replace)
-    return cleanString(replace) if replace else cleanString(cur)
+    return replace if replace else cur
 
 def cleanString(cur):
+    cur = checkString(cur)
     cur = cur.replace(":", "")
     cur = cur.replace("_", " ")
     return cur

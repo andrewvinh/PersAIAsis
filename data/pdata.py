@@ -1,4 +1,5 @@
 from imports import *
+import psms
 
 #Changes to config path must be reflected in imports.py
 #altPath = os.getcwd()
@@ -13,15 +14,14 @@ localFiles = {
         "localDB":str(path + "/db.txt")
         }
 
-def getLocal(branch):
-    branch = str("local" + branch[0])
+def getLocal(words):
+    branch = str("local" + words)
     if branch in localFiles.keys():
         cur = localFiles[branch]
         if os.path.isfile(cur):
             with open(cur,'r') as f:
                 try:
                     db = json.load(f)
-                    print "DB: ", db
                     return db
                 except:
                     fail = "Unable to find local file"
@@ -32,6 +32,12 @@ def getLocal(branch):
         print fail
         return fail
 
+def updateLocal(branch, new):
+    print "Updating local", branch
+    branch = str("local" + branch)
+    if branch in localFiles.keys():
+        with open(localFiles[branch],'w') as f:
+            f.write(json.dumps(new, sort_keys=False, indent=2))
 
 def newDB():
     return {"Misc":[]}
@@ -91,22 +97,25 @@ def updateContacts(bod):
         f.write(json.dumps(bod, sort_keys=False, indent=2))
 
 def listContacts(*args):
+    print args
     conts = getLocalContacts()
-    search = args[0]
-    print "Contact: ", search
-    if search in conts.keys():
-        for key in conts[search]:
-            print key, ": ", conts[search][key] 
+    search = args[0][0].lower() if args[0] else ""
+    print "Searching for: ", search
+    if search:
+        ids = psms.getID(search)
+        for item in sorted(ids):
+            print "User ID: ", item
+            print "Name: ", conts[item]["Name"]
+            print "Mobile: ", conts[item]["Mobile"]
+            print "Email: ", conts[item]["Email"]
+            print "Relation: ", conts[item]["Relation"]
     else:
         count = 1
-        while count < len(conts.keys()):
+        while count < len(conts.keys())-1: #-1 because of Contact -1: Twilio Bot
             print "ID: ", count
             for item in conts[str(count)]:
                 print item, ": ", conts[str(count)][item]
             count = count + 1
-                
-
-
 
 """
 Args:

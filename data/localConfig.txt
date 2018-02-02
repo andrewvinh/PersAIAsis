@@ -43,6 +43,7 @@
     "pdata.resetDB", 
     "pdata.updateContacts", 
     "pdata.updateDB", 
+    "pdata.updateLocal", 
     "pdata.writeConfig", 
     "schema.closedDict", 
     "schema.contact", 
@@ -50,7 +51,9 @@
     "psms.addRelation", 
     "psms.editContact", 
     "psms.getID", 
-    "psms.outText", 
+    "psms.getNumber", 
+    "psms.removeRelation", 
+    "psms.textGroup", 
     "psms.textMyself"
   ], 
   "webPaths": ".com .org .us .net .gov .go .ly", 
@@ -60,6 +63,7 @@
     "String": "panalyze.sAnalyze"
   }, 
   "modules": "ptext pmath pexcel pread pconfig database plogger panalyze pdata test schema psms", 
+  "twil2fa": "XNcKa+SM1tz1xzwFKLoRK04cuIGqCOO8EdG3CH78", 
   "twilAuth": "938adea889ca04099087eed0c54c0f30", 
   "filePaths": ".py .xlsx .txt .doc .docx .cljs .clj .java .rtf .dmg", 
   "twilID": "ACcdd91d351f6c22afb8f270c755b0c8e1", 

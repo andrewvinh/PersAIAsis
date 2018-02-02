@@ -6,23 +6,46 @@ curl 'https://api.twilio.com/2010-04-01/Accounts/AccountSID/Messages.json' -X PO
 """
 from imports import *
 from twilio.rest import Client
-
-
-# Your Account SID from twilio.com/console
-account_sid = pdata.getConfig("twilID")
-# Your Auth Token from twilio.com/console
-auth_token  = pdata.getConfig("twilAuth")
+import panalyze
+import pdata
+import schema
 
 def textMyself(words):
+    account_sid = pdata.getConfig("twilID")
+    auth_token  = pdata.getConfig("twilAuth")
     print "Texting the main body: ", words
     client = Client(account_sid, auth_token)
-    """
-    message = client.messages.create(
-    to = myself, 
-    from_ = self,
-    body = ''.join(str(e+" ") for e in words))
-    print(message.sid)"""
+    to = getNumber("myself")
+    self = getNumber("sender")
+    print "To: ", to, " From: ", self
+    message = ''.join(panalyze.cleanString(str(e+" ")) for e in words)
+    for recipient in to:
+        message = client.messages.create(
+        to = recipient, 
+        from_ = self,
+        body = message)
+    print(message.sid)
 
+#paia textGroup family
+def textGroup(words):
+    if words:
+        account_sid = pdata.getConfig("twilID")
+        auth_token  = pdata.getConfig("twilAuth")
+        client = Client(account_sid, auth_token)
+        self = getNumber("sender")
+        message = ''.join(panalyze.cleanString(str(e+" ")) for e in words[1::])
+        ids = getID(words[0])
+        print "To: ", ids
+        print "Message: ", message
+        for val in ids:
+            print getNumber(val)
+            message = client.messages.create(
+            to = getNumber(val), 
+            from_ = self,
+            body = message)
+            print(message.sid)
+
+#paia addContact Name Test_Vinh Relation Testing Mobile 1666
 def addContact(add):
     print "Add: ", add
     new = schema.contact()
@@ -30,60 +53,73 @@ def addContact(add):
     while count < len(add):
         if add[count] in new.keys():
             if add[count] == "Relation":
-                new[add[count]].append(panalyze.checkString(add[count+1]).lower())
+                t1 = panalyze.cleanString(add[count+1]).lower()
+                for t2 in t1.split():
+                    new[add[count]].append(t2)
             else:
-                new[add[count]] = panalyze.checkString(add[count+1])
+                new[add[count]] = panalyze.cleanString(add[count+1])
                 count = count + 1
         count = count + 1
-    conts = pdata.getLocalContacts()
-    #print "New: ", new["Name"]
+    conts = pdata.getLocal("Contacts")
     temp = getID(new["Name"].lower())
-    #print "Temp: ", temp
     if len(temp) == 0:
-        conts[str(len(conts))] = new
+        print "Adding new contact!"
+        conts[str(len(conts)-1)] = new
         pdata.updateContacts(conts)
         return 1
     else:
-        print "Contact already present."
+        print "Contact already present. Please call editContact to edit the contact"
         return 0
-    
-
-def outText(words):
-    print "Attempting to text: ", words[0]
-    client = Client(account_sid, auth_token)
-    message = client.messages.create(
-    to = kris if words[0] == "kris" else myself, 
-    from_ = self,
-    body = ''.join(str(e+" ") for e in words[1::]))
 
 def addRelation(words):
-    user = panalyze.checkString(words[0])
-    conts = pdata.getLocalContacts()
-    print "User: ", user
-    print "New relations: ", words[1::]
-    print "Search: ", getID(user)
+    user = panalyze.cleanString(words[0].lower())
+    adds = []
+    for add in words[1::]:
+        adds.append(panalyze.cleanString(add))
+    conts = pdata.getLocal("Contacts")
+    for found in getID(user): 
+        cur = conts[found]
+        print "Found match! Adding into ", cur["Name"]
+        cur["Relation"] = cur["Relation"] + list(set(adds) - set(cur["Relation"]))
+    pdata.updateLocal("Contacts", conts)
+
+def removeRelation(words):
+    user = panalyze.cleanString(words[0].lower())
+    removes = []
+    for remove in words[1::]:
+        removes.append(panalyze.cleanString(remove))
+    conts = pdata.getLocal("Contacts")
     for found in getID(user):
-        print conts[found]
+        cur = conts[found]
+        for rem in removes:
+            try:
+                updated = cur["Relation"].remove(rem)
+                print "Removed relation!"
+            except:
+                print "Relation not present"
+    pdata.updateLocal("Contacts", conts)
+        
 
 #Args: UserID Category Change
 def editContact(words):
-    conts = pdata.getLocalContacts()
+    conts = pdata.getLocal("Contacts")
     user = words[0]
     cat = words[1]
     add = words[2]
-    print "User: ", user, " Category: ", cat, " Edit: ", add
-    if user in conts.keys():
-        user = conts[user]
-    else:
-        print "User not found, defaulting to self"
-        user = conts[getID(user)[0]] if getID(user) else conts["0"]
-    print user
+    newID = getID(user)[0]
+    user = conts[newID] if newID else conts["0"]
+    #print "Found user: ", user
+    user[cat] = panalyze.cleanString(add) if cat in user.keys() else user[cat]
+    #print "New user: ", user
+    conts[newID] = user
+    #print "Confirmation: ", conts[newID]
+    #print "Conts: ", conts
+    pdata.updateContacts(conts)
 
 
 def getID(search):
-    search = panalyze.checkString(search[0]) if isinstance(search, list) else panalyze.checkString(search)
-    #print "Search: ", search
-    conts = pdata.getLocalContacts()
+    search = panalyze.cleanString(search[0]) if isinstance(search, list) else panalyze.cleanString(search)
+    conts = pdata.getLocal("Contacts")
     final = []
     for key in conts.keys():
         cur = conts[key]
@@ -94,5 +130,16 @@ def getID(search):
                 #print "Found match"
                 final.append(key)
                 break
-    #print "All ID's that match: ", final
     return final
+
+def getNumber(search):
+    conts = pdata.getLocal("Contacts")
+    if search not in conts.keys():
+        ids = getID(search)
+        final = []
+        for item in ids:
+            final.append(str("+" + conts[item]["Mobile"]))
+        return final
+    else:
+        return str("+" + conts[search]["Mobile"])
+

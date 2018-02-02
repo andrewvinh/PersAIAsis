@@ -41,6 +41,7 @@
     "pdata.listContacts", 
     "pdata.lookup", 
     "pdata.newDB", 
+    "pdata.removeCat", 
     "pdata.resetDB", 
     "pdata.updateContacts", 
     "pdata.updateDB", 

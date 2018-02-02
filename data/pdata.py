@@ -177,7 +177,23 @@ def addCat(words):
     if len(words) > 0:
         db = getLocal(words[0])
         cat = panalyze.cleanString(words[1]) if len(words)>1 else panalyze.cleanString("String")
-        print "Adding", cat,"to", db
+        #print "Adding", cat,"to", db
+        print "Did you wanna make this a list?"
+        choice = raw_input()
+        choice = [] if choice.lower() == "yes" else ""
         for item in db:
-            print db[item]
+            db[item][cat] = choice
+        updateLocal("Contacts", db)
+
+def removeCat(words):
+    if len(words) > 0:
+        db = getLocal(words[0])
+        cat = panalyze.cleanString(words[1]) if len(words)>1 else panalyze.cleanString("String")
+        #print "Adding", cat,"to", db
+        if cat in db["0"].keys():
+            for item in db:
+                db[item].pop(cat)
+        else:
+            print cat, "is not in", words[0]
+        updateLocal("Contacts", db)
 

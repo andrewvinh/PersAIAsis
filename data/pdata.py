@@ -98,10 +98,8 @@ def updateContacts(bod):
         f.write(json.dumps(bod, sort_keys=False, indent=2))
 
 def listContacts(*args):
-    print args
     conts = getLocalContacts()
     search = args[0][0].lower() if args[0] else ""
-    print "Searching for: ", search
     if search:
         ids = psms.getID(search)
         for item in sorted(ids):
@@ -114,8 +112,10 @@ def listContacts(*args):
         count = 1
         while count < len(conts.keys())-1: #-1 because of Contact -1: Twilio Bot
             print "ID: ", count
-            for item in conts[str(count)]:
-                print item, ": ", conts[str(count)][item]
+            print "Name: ", conts[str(count)]["Name"]
+            print "Mobile: ", conts[str(count)]["Mobile"]
+            print "Email: ", conts[str(count)]["Email"]
+            print "Relation: ", conts[str(count)]["Relation"]
             count = count + 1
 
 """

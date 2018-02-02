@@ -71,32 +71,35 @@ def addContact(add):
         print "Contact already present. Please call editContact to edit the contact"
         return 0
 
-def addRelation(words):
+def editCL(words):
     user = panalyze.cleanString(words[0].lower())
+    cat = panalyze.cleanString(words[1]) if len(words)>1 else panalyze.cleanString("String")
     adds = []
-    for add in words[1::]:
+    print "User: ", user, "cat:", cat
+    for add in words[2::]:
         adds.append(panalyze.cleanString(add))
     conts = pdata.getLocal("Contacts")
     for found in getID(user): 
         cur = conts[found]
         print "Found match! Adding into ", cur["Name"]
-        cur["Relation"] = cur["Relation"] + list(set(adds) - set(cur["Relation"]))
+        cur[cat] = cur[cat] + list(set(adds) - set(cur[cat]))
     pdata.updateLocal("Contacts", conts)
 
-def removeRelation(words):
+def removeCL(words):
     user = panalyze.cleanString(words[0].lower())
+    cat = panalyze.cleanString(words[1]) if len(words)>1 else panalyze.cleanString("String")
     removes = []
-    for remove in words[1::]:
+    for remove in words[2::]:
         removes.append(panalyze.cleanString(remove))
     conts = pdata.getLocal("Contacts")
     for found in getID(user):
         cur = conts[found]
         for rem in removes:
             try:
-                updated = cur["Relation"].remove(rem)
-                print "Removed relation!"
+                updated = cur[cat].remove(rem)
+                print "Removed", cat
             except:
-                print "Relation not present"
+                print cat, "not present"
     pdata.updateLocal("Contacts", conts)
         
 

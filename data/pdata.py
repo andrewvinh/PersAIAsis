@@ -1,5 +1,6 @@
 from imports import *
 import psms
+import panalyze
 
 #Changes to config path must be reflected in imports.py
 #altPath = os.getcwd()
@@ -172,4 +173,11 @@ def lookup(full):
     else:
         print "Current DB keys: ",current.keys()
 
+def addCat(words):
+    if len(words) > 0:
+        db = getLocal(words[0])
+        cat = panalyze.cleanString(words[1]) if len(words)>1 else panalyze.cleanString("String")
+        print "Adding", cat,"to", db
+        for item in db:
+            print db[item]
 

@@ -71,6 +71,7 @@ def addContact(add):
         print "Contact already present. Please call editContact to edit the contact"
         return 0
 
+#paia editCL angel Relation dope
 def editCL(words):
     user = panalyze.cleanString(words[0].lower())
     cat = panalyze.cleanString(words[1]) if len(words)>1 else panalyze.cleanString("String")
@@ -85,6 +86,7 @@ def editCL(words):
         cur[cat] = cur[cat] + list(set(adds) - set(cur[cat]))
     pdata.updateLocal("Contacts", conts)
 
+#paia removeCL angel Relation dope
 def removeCL(words):
     user = panalyze.cleanString(words[0].lower())
     cat = panalyze.cleanString(words[1]) if len(words)>1 else panalyze.cleanString("String")

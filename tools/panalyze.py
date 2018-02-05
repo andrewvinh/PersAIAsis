@@ -1,11 +1,6 @@
 from imports import *
 import pdata, schema
 
-#print "Analyzing config: ", bod
-
-def sAnalyze(entries):
-    print "Analyzing: ", entries
-
 """
 Check items individually
 Cycle through dividers to check. pfunc the func
@@ -44,7 +39,7 @@ def addEntry(entries):
             misc.append(cur)
             final["Misc"] = misc
         count = count + 1
-    final = redAdd(pdata.getLocal("DB"),final)
+    final = pdata.redAdd(pdata.getLocal("DB"),final)
     print "AddEntry Final: ", final
     pdata.updateLocal("DB",final)
     return entries
@@ -109,28 +104,6 @@ def dictify(add):
         count = count + 1
     #print "Final: ", final
     return final
-
-def redAdd(bod, add):
-    #print "Adding New: ", add
-    #print "Current local: ", bod
-    bkeys = bod.keys()
-    for akey in add.keys():
-        #print "Key: ", akey
-        if akey == "Misc":
-            bod["Misc"] = bod["Misc"] + list(set(add["Misc"]) - set(bod[akey]))
-            #print "New body[Misc]: ", bod["Misc"]
-        else:
-            if akey in bkeys:
-                #print "Matching key!"
-                bod[akey] = redAdd(bod[akey],add[akey])
-            else:
-                #print "New entry: ", akey
-                bod[akey] = add[akey]
-                #print "New body: ", bod
-    #print "Finished bod: ", bod
-    return bod
-            
-        
         
 def checkString(cur):
     replace = ""

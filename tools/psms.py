@@ -10,6 +10,32 @@ import panalyze
 import pdata
 import schema
 
+#paia listContacts 
+#paia listContacts andrew
+def listContacts(*args):
+    conts = pdata.getLocal("Contacts")
+    if len(conts) == 0:
+        print "No contacts... loser."
+    else:
+        search = args[0][0].lower() if args[0] else ""
+        if search:
+            ids = getID(search)
+            for item in sorted(ids):
+                print "User ID: ", item
+                print "Name: ", conts[item]["Name"]
+                print "Mobile: ", conts[item]["Mobile"]
+                print "Email: ", conts[item]["Email"]
+                print "Relation: ", conts[item]["Relation"]
+        else:
+            count = 1
+            while count < len(conts.keys())-1: #-1 because of Contact -1: Twilio Bot
+                print "ID: ", count
+                print "Name: ", conts[str(count)]["Name"]
+                print "Mobile: ", conts[str(count)]["Mobile"]
+                print "Email: ", conts[str(count)]["Email"]
+                print "Relation: ", conts[str(count)]["Relation"]
+                count = count + 1
+
 def textMyself(words):
     account_sid = pdata.getConfig("twilID")
     auth_token  = pdata.getConfig("twilAuth")
@@ -48,7 +74,7 @@ def textGroup(words):
 #paia addContact Name Test_Vinh Relation Testing Mobile 1666
 def addContact(add):
     print "Add: ", add
-    new = schema.contact()
+    new = schema.newContact()
     count = 0
     while count < len(add):
         if add[count] in new.keys():
@@ -146,5 +172,6 @@ def getNumber(search):
             final.append(str("+" + conts[item]["Mobile"]))
         return final
     else:
+        #Received input ID, returning matching number
         return str("+" + conts[search]["Mobile"])
 

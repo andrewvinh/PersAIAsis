@@ -1,21 +1,19 @@
 from imports import *
 import psms
 import panalyze
+import schema
 
 #Changes to config path must be reflected in imports.py
 #altPath = os.getcwd()
-path = os.path.dirname(os.path.abspath(__file__))
-localConfig = path + '/localConfig.txt'
-localContacts = path + "/contacts.txt"
-localDB = path + "/db.txt"
-
-def newDB():
-    return {"Misc":[]}
-
 localFiles = {
-        "localConfig":[str(path + '/localConfig.txt'),{}],
-        "localContacts":[str(path + "/contacts.txt"),{}],
-        "localDB":[str(path + "/db.txt"),newDB()]
+        "localConfig":[str(os.path.dirname(os.path.abspath(__file__))
+            + '/localConfig.txt'),schema.newConfig()],
+        "localContacts":[str(os.path.dirname(os.path.abspath(__file__))
+            + "/contacts.txt"),schema.newContact()],
+        "localCalendar":[str(os.path.dirname(os.path.abspath(__file__))
+            + "/calendar.txt"),schema.newCal()],
+        "localDB":[str(os.path.dirname(os.path.abspath(__file__))
+            + "/db.txt"),schema.newDB()]
         }
 
 def getLocal(words):
@@ -31,8 +29,19 @@ def getLocal(words):
             match = localFiles[branch][1]
             #print "Branch: ", words, " Match: ", match
             updateLocal(words,match)
+            return ""
     else:
-        print "Local branch not found"
+        fail = "Branch not found. Note: Keys are case-sensitive"
+        print fail
+        return fail
+
+
+def getMatch(words):
+    branch = str("local" + words)
+    if branch in localFiles.keys():
+        return localFiles[branch][1]
+    else:
+        print "Branch not found. Note: Keys are case-sensitive"
 
 def updateLocal(branch, new):
     #print "Updating local", branch
@@ -41,36 +50,104 @@ def updateLocal(branch, new):
         with open(localFiles[branch][0],'w') as f:
             f.write(json.dumps(new, sort_keys=False, indent=2))
 
-def resetDB(*args):
-    updateDB(newDB())
-
-def getConfig(name):
-    bod = getLocal("Config")
-    return bod[name] if name in bod.keys() else bod
-
-def listContacts(*args):
-    conts = getLocal("Contacts")
-    if len(conts) == 0:
-        print "No contacts... loser."
-    else:
-        search = args[0][0].lower() if args[0] else ""
-        if search:
-            ids = psms.getID(search)
-            for item in sorted(ids):
-                print "User ID: ", item
-                print "Name: ", conts[item]["Name"]
-                print "Mobile: ", conts[item]["Mobile"]
-                print "Email: ", conts[item]["Email"]
-                print "Relation: ", conts[item]["Relation"]
+def checkDict(branch):
+    print "Looking up", branch
+    cur = getLocal(branch)
+    if isinstance(cur,(dict)):
+        if len(cur) > 0:
+            print branch,":"
+            for key in cur:
+                print key
+                print cur[key]
         else:
-            count = 1
-            while count < len(conts.keys())-1: #-1 because of Contact -1: Twilio Bot
-                print "ID: ", count
-                print "Name: ", conts[str(count)]["Name"]
-                print "Mobile: ", conts[str(count)]["Mobile"]
-                print "Email: ", conts[str(count)]["Email"]
-                print "Relation: ", conts[str(count)]["Relation"]
-                count = count + 1
+            print "Empty dict"
+    else:
+        print "Local",branch,"not found. Note: Keys are case-sensitive"
+
+#branch = local file, entry = new dict entry
+def dictAdd(branch, entry):
+    print "Attempting to modify", branch
+    local = getLocal(branch)
+    newKey = entry.keys()[0]
+    newVal = entry[newKey]
+    if newKey not in local.keys():
+        local[newKey] = newVal
+    else:
+        print newKey, "already found in", branch
+
+def dictRem(branch, key):
+    print "Attempting to modify", branch
+    local = getLocal(branch)
+    if key in local.keys():
+        local.pop(key)
+    else:
+        print "Key not found"
+
+def getKey(local, search):
+    local = getLocal(local)
+    search = panalyze.cleanString(search) 
+    final = []
+    print "Searching for: ", search
+    for key in local.keys():
+        cur = local[key]
+        if isinstance(cur, dict):
+            for k1 in cur.keys():
+                c1 = cur[k1]
+                if search in c1 or search in k1 or search in key:
+                    final.append(key)
+                    break
+        else:
+            if search in cur or search in key:
+                final.append(key)
+                break
+    return sorted(final)
+
+def testKey(*args):
+    print getKey("Contacts", "test")
+    print getKey("DB", "Hiking")
+    print getKey("Contacts", "family")
+
+#paia addCat Contacts Address
+def addCat(words):
+    if len(words) > 0:
+        db = getLocal(words[0])
+        cat = panalyze.cleanString(words[1]) if len(words)>1 else panalyze.cleanString("String")
+        print "Adding", cat,"to", words[0]
+        if cat not in db["0"].keys():
+            print "Did you wanna make this a list?"
+            choice = raw_input()
+            choice = [] if choice.lower() == "yes" else ""
+            for item in db:
+                db[item][cat] = choice
+            updateLocal(words[0], db)
+        else: 
+            print cat,"is already present in", words[0]
+
+#paia removeCat Contacts Address
+def removeCat(words):
+    if len(words) > 0:
+        db = getLocal(words[0])
+        cat = panalyze.cleanString(words[1]) if len(words)>1 else panalyze.cleanString("String")
+        if cat in db["0"].keys():
+            print "Removing", cat,"from", db
+            for item in db:
+                db[item].pop(cat)
+        else:
+            print cat, "is not in", words[0]
+        updateLocal("Contacts", db)
+
+def redAdd(bod, add):
+    bkeys = bod.keys()
+    for akey in add.keys():
+        if akey == "Misc":
+            bod["Misc"] = bod["Misc"] + list(set(add["Misc"]) - set(bod[akey]))
+        else:
+            if akey in bkeys:
+                bod[akey] = redAdd(bod[akey],add[akey])
+            else:
+                bod[akey] = add[akey]
+    #print "Finished bod: ", bod
+    return bod
 
 """
 Args:
@@ -89,7 +166,6 @@ def callPFunc(handler, thruArgs):
         print "Unable to call ", handler
 
 def lookup(full):
-    #print "Full: ", full
     #paths = string.replace(full[0], ".", " ").replace(full[0],"/"," ").split(" ") if len(full) == 1 else full
     if len(full) == 1:
         paths = full[0]
@@ -126,28 +202,3 @@ def lookup(full):
             print "Key not found! (Note: Keys are case-sensitive)"
     else:
         print "Current DB keys: ",current.keys()
-
-def addCat(words):
-    if len(words) > 0:
-        db = getLocal(words[0])
-        cat = panalyze.cleanString(words[1]) if len(words)>1 else panalyze.cleanString("String")
-        #print "Adding", cat,"to", db
-        print "Did you wanna make this a list?"
-        choice = raw_input()
-        choice = [] if choice.lower() == "yes" else ""
-        for item in db:
-            db[item][cat] = choice
-        updateLocal("Contacts", db)
-
-def removeCat(words):
-    if len(words) > 0:
-        db = getLocal(words[0])
-        cat = panalyze.cleanString(words[1]) if len(words)>1 else panalyze.cleanString("String")
-        #print "Adding", cat,"to", db
-        if cat in db["0"].keys():
-            for item in db:
-                db[item].pop(cat)
-        else:
-            print cat, "is not in", words[0]
-        updateLocal("Contacts", db)
-

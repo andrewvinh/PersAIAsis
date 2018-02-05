@@ -1,17 +1,16 @@
 from imports import *
 import pdata
 
-def getConfig(*args):
-    local = pdata.getLocalConfig() 
-    #print "Received local config: ", local
-    return local
+def getConfig(name):
+    bod = getLocal("Config")
+    return bod[name] if name in bod.keys() else bod
 
 def checkConfig(self,**kwargs):
     #Implement multi-level searching
     if "data" in kwargs:
         print kwargs["key"], ": ", kwargs["data"]
     else:
-        bod = pdata.getLocalConfig()
+        bod = pdata.getLocal("Config")
         #print "Bod: ", bod
         print "Config: ", bod.keys()
         select = ""

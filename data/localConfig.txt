@@ -1,5 +1,5 @@
 {
-  "dirs": "tools db testing logger data schema calendar", 
+  "dirs": "tools testing logger data schema calendar", 
   "functions": [
     "ptext.find", 
     "ptext.mirror", 
@@ -65,7 +65,7 @@
     "::": "panalyze.multiDict", 
     "String": "panalyze.sAnalyze"
   }, 
-  "modules": "ptext pmath pexcel pread pconfig database plogger panalyze pdata test schema psms pcalendar ptime", 
+  "modules": "ptext pmath pexcel pread pconfig plogger panalyze pdata test schema psms pcalendar ptime", 
   "twil2fa": "XNcKa+SM1tz1xzwFKLoRK04cuIGqCOO8EdG3CH78", 
   "twilAuth": "938adea889ca04099087eed0c54c0f30", 
   "filePaths": ".py .xlsx .txt .doc .docx .cljs .clj .java .rtf .dmg", 

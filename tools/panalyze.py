@@ -1,5 +1,5 @@
 from imports import *
-import pdata, schema
+import pdata, schema, pconfig
 
 """
 Check items individually
@@ -10,8 +10,8 @@ If multi, recv both finalized dict and next starting position
 def addEntry(entries):
     print "Making new dict with: ", entries
     count = 0
-    final = pdata.newDB()
-    divs = pdata.getConfig("dividers")
+    final = schema.newDB()
+    divs = pconfig.getConfig("dividers")
     while count < len(entries):
         cur = checkString(entries[count])
         print "AddEntry cur: ", cur 
@@ -74,7 +74,7 @@ def closeDict(entries, count):
 #Receives dict in list and transforms to full dict
 def dictify(add):
     #print "Attemping to dictify: ", add
-    final = pdata.newDB()
+    final = schema.newDB()
     count = 0
     while count < len(add):
         cur = checkString(add[count])

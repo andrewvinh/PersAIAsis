@@ -29,7 +29,7 @@ def getLocal(words):
             match = localFiles[branch][1]
             #print "Branch: ", words, " Match: ", match
             updateLocal(words,match)
-            return ""
+            return match
     else:
         fail = "Branch not found. Note: Keys are case-sensitive"
         print fail
@@ -49,6 +49,10 @@ def updateLocal(branch, new):
     if branch in localFiles.keys():
         with open(localFiles[branch][0],'w') as f:
             f.write(json.dumps(new, sort_keys=False, indent=2))
+
+def resetDB(*args):
+    print "Resetting local DB!"
+    updateLocal("DB",schema.newDB())
 
 def checkDict(branch):
     print "Looking up", branch

@@ -2,7 +2,7 @@ from imports import *
 import pdata
 
 def getConfig(name):
-    bod = getLocal("Config")
+    bod = pdata.getLocal("Config")
     return bod[name] if name in bod.keys() else bod
 
 def checkConfig(self,**kwargs):

@@ -6,20 +6,17 @@ import schema
 #Changes to config path must be reflected in imports.py
 #altPath = os.getcwd()
 localFiles = {
-        "localConfig":[str(os.path.dirname(os.path.abspath(__file__))
-            + '/localConfig.txt'),schema.newConfig()],
-        "localContacts":[str(os.path.dirname(os.path.abspath(__file__))
-            + "/contacts.txt"),schema.newContact()],
-        "localCalendar":[str(os.path.dirname(os.path.abspath(__file__))
-            + "/calendar.txt"),schema.newCal()],
-        "localDB":[str(os.path.dirname(os.path.abspath(__file__))
-            + "/db.txt"),schema.newDB()]
+        "localConfig":["/localConfig.txt",schema.newConfig()],
+        "localContacts":["/contacts.txt",schema.newContact()],
+        "localCalendar":["/calendar.txt",schema.newCal()],
+        "localDB":["/db.txt",schema.newDB()]
         }
 
-def getLocal(words):
-    branch = str("local" + words)
+def getLocal(word):
+    branch = str("local" + word)
     if branch in localFiles.keys():
-        cur = localFiles[branch][0]
+        cur = str(os.path.dirname(os.path.abspath(__file__))+localFiles[branch][0])
+        #print cur
         if os.path.isfile(cur):
             with open(cur,'r') as f:
                     db = json.load(f)
@@ -28,7 +25,7 @@ def getLocal(words):
             print "Unable to find local file. Making new one"
             match = localFiles[branch][1]
             #print "Branch: ", words, " Match: ", match
-            updateLocal(words,match)
+            updateLocal(word,match)
             return match
     else:
         fail = "Branch not found. Note: Keys are case-sensitive"
@@ -36,18 +33,19 @@ def getLocal(words):
         return fail
 
 
-def getMatch(words):
-    branch = str("local" + words)
+def getMatch(word):
+    branch = str("local" + word)
     if branch in localFiles.keys():
         return localFiles[branch][1]
     else:
         print "Branch not found. Note: Keys are case-sensitive"
 
 def updateLocal(branch, new):
-    #print "Updating local", branch
+    if branch != "Config": 
+        print "Updating local", branch
     branch = str("local" + branch)
     if branch in localFiles.keys():
-        with open(localFiles[branch][0],'w') as f:
+        with open(str(os.path.dirname(os.path.abspath(__file__))+localFiles[branch][0]),'w') as f:
             f.write(json.dumps(new, sort_keys=False, indent=2))
 
 def resetDB(*args):
@@ -80,10 +78,11 @@ def dictAdd(branch, entry):
         print newKey, "already found in", branch
 
 def dictRem(branch, key):
-    print "Attempting to modify", branch
     local = getLocal(branch)
     if key in local.keys():
+        print "Deleting", key, "from",branch
         local.pop(key)
+        updateLocal(branch,local)
     else:
         print "Key not found"
 

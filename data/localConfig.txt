@@ -45,6 +45,7 @@
     "psms.getNumber", 
     "psms.listContacts", 
     "psms.removeCL", 
+    "psms.removeContact", 
     "psms.textGroup", 
     "psms.textMyself", 
     "pcalendar.addEvent", 

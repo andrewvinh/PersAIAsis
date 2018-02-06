@@ -97,6 +97,15 @@ def addContact(add):
         print "Contact already present. Please call editContact to edit the contact"
         return 0
 
+def removeContact(name):
+    name = name[0]
+    keys = pdata.getKey("Contacts",name)
+    if keys:
+        for key in keys:
+            pdata.dictRem("Contacts",key)
+    else:
+        print "Contact not found"
+
 #paia editCL angel Relation dope
 def editCL(words):
     user = panalyze.cleanString(words[0].lower())

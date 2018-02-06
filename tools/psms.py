@@ -148,12 +148,8 @@ def editContact(words):
     add = words[2]
     newID = getID(user)[0]
     user = conts[newID] if newID else conts["0"]
-    #print "Found user: ", user
     user[cat] = panalyze.cleanString(add) if cat in user.keys() else user[cat]
-    #print "New user: ", user
     conts[newID] = user
-    #print "Confirmation: ", conts[newID]
-    #print "Conts: ", conts
     pdata.updateContacts(conts)
 
 

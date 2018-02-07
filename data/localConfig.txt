@@ -51,13 +51,13 @@
     "psms.textGroup", 
     "psms.textMyself", 
     "pcalendar.addEvent", 
-    "pcalendar.checkCalendar"
+    "pcalendar.checkCalendar", 
+    "ptime.duration", 
+    "ptime.now"
   ], 
   "webPaths": ".com .org .us .net .gov .go .ly", 
   "dividers": {
-    "string": "panalyze.sAnalyze", 
-    "::": "panalyze.multiDict", 
-    "String": "panalyze.sAnalyze"
+    "::": "/"
   }, 
   "modules": "ptext pmath pexcel pread pconfig plogger panalyze pdata test schema psms pcalendar ptime", 
   "twil2fa": "XNcKa+SM1tz1xzwFKLoRK04cuIGqCOO8EdG3CH78", 

@@ -34,7 +34,6 @@ for pdir in pdirs:
 import ptext
 import pmath
 import pexcel
-import pread
 import pconfig
 import plogger
 import panalyze

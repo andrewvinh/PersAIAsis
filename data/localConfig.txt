@@ -8,7 +8,6 @@
     "pmath.multiply", 
     "pexcel.combineCols", 
     "pexcel.printRows", 
-    "pread.readArgs", 
     "pconfig.checkConfig", 
     "pconfig.getConfig", 
     "plogger.addLog", 
@@ -52,14 +51,14 @@
     "psms.textMyself", 
     "pcalendar.addEvent", 
     "pcalendar.checkCalendar", 
-    "ptime.duration", 
+    "ptime.length", 
     "ptime.now"
   ], 
   "webPaths": ".com .org .us .net .gov .go .ly", 
   "dividers": {
     "::": "/"
   }, 
-  "modules": "ptext pmath pexcel pread pconfig plogger panalyze pdata test schema psms pcalendar ptime", 
+  "modules": "ptext pmath pexcel pconfig plogger panalyze pdata test schema psms pcalendar ptime", 
   "twil2fa": "XNcKa+SM1tz1xzwFKLoRK04cuIGqCOO8EdG3CH78", 
   "twilAuth": "938adea889ca04099087eed0c54c0f30", 
   "filePaths": ".py .xlsx .txt .doc .docx .cljs .clj .java .rtf .dmg", 

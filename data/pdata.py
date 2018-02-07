@@ -186,22 +186,23 @@ def lookup(full):
                 current = current[path]
             print paths[-1], "data:"
             if len(current.keys()) > 1:
-                print "-----\nObjects: " 
+                print "-----\nLists: " 
             for key in current.keys():
                 if key != "Misc":
                     print key
             if len(current["Misc"]) > 0:
-                print "-----\nSingles: " 
+                print "-----\nMisc: " 
             for item in current["Misc"]:
                 print item
-            print "-----"
-            if len(current.keys()) > 0:
-                select = ""
-                print "Would you like to lookup further?"
-                select = raw_input()
-                if "no" not in select.lower():
-                    lookup(paths + [select])
+            print "-----" 
         except KeyError:
             print "Key not found! (Note: Keys are case-sensitive)"
     else:
         print "Current DB keys: ",current.keys()
+    if len(current.keys()) > 1:
+        select = ""
+        print "Would you like to lookup further?"
+        select = raw_input()
+        for k1 in current.keys():
+            if select.lower() in k1.lower():
+                lookup(paths + [k1])

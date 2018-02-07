@@ -19,6 +19,8 @@
     "panalyze.cleanString", 
     "panalyze.closeDict", 
     "panalyze.dictify", 
+    "panalyze.findNest", 
+    "panalyze.sAnalyze", 
     "pdata.addCat", 
     "pdata.callPFunc", 
     "pdata.checkDict", 

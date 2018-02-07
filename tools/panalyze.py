@@ -104,12 +104,25 @@ def dictify(add):
         count = count + 1
     #print "Final: ", final
     return final
-        
+
+def findNest(doc):
+    print "Nesting"
+    doc = doc.split() if isinstance(doc,str) else doc
+    divs = pconfig.getConfig("Dividers")
+    list(set(add["Misc"]) - set(bod[akey]))
+    
+
+def sAnalyze():
+    print "Found string! What would you like to replace it with?"
+    replace = raw_input()
+    replace = cur.lower().replace("string",replace)
+
 def checkString(cur):
     replace = ""
     if "string" in cur.lower():
         print "Found string! What would you like to replace it with?"
         replace = raw_input()
+        print "Received: ", replace
         replace = cur.lower().replace("string",replace)
     return replace if replace else cur
 

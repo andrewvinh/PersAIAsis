@@ -3,12 +3,9 @@ from imports import *
 
 def run():
     args = sys.argv
-    print args
+    mainCheck()
     if(len(args) > 1):
-        '''
-        print "Input args: ", sys.argv
-        print "Main bod: ", bod
-        '''
+        plogger.newLog("Andrew", sys.argv[1::])
         timed = 0
         if "timed" in args:
             print "Timing!"
@@ -18,11 +15,27 @@ def run():
         bod = pdata.getLocal("Config")
         orgArgs = readArgs(args, bod)
         db = pdata.getLocal("DB")
-        newRead(bod)
+        play(bod)
         if timed:
             ptime.length(start)
     else:
         print "No commands found. What would you like?"
+
+def mainCheck():
+    today = checkDay()
+    check = pconfig.getConfig("checkCal")
+    if check: 
+        temp = pcalendar.dailyEvents()
+        pconfig.updateConfig("checkCal",temp)
+
+def checkDay():
+    now = ptime.now()
+    old = pdata.getLocal("Log")
+    if now[0:10] != old.keys()[0][0:10]:
+        plogger.recordDay(old)
+        pconfig.updateConfig("checkCal",1)
+        return 0
+    return 1
 
 def readArgs(argv, bod):
     '''
@@ -34,7 +47,6 @@ def readArgs(argv, bod):
     functions = bod["functions"]
     current = "Random"
     timed = 0
-    
     for c in range(1,len(argv)):
         temp = argv[c]
         for function in functions:
@@ -49,10 +61,10 @@ def readArgs(argv, bod):
         #print current
     return bod
 
-def newRead(bod):
-    print "newRead: ", bod["inputArgs"]
+def play(bod):
+    #print "newRead: ", bod["inputArgs"]
     for key,val in bod["inputArgs"].items():
-        print "Key: ", key, "; Val: ", val
+        #print "Key: ", key, "; Val: ", val
         myClass = __import__(key.split(".")[0])
         myFunc = key.split(".")[1]
         #print "myClass: ", myClass, "\nmyFunc: ", myFunc

@@ -1,17 +1,40 @@
 from imports import *
 
 def now(*args):
-    now = datetime.datetime.today()
-    #time.sleep(2)
-    #length(now)
-    return now
+    return datetime.datetime.today().strftime("%Y-%m-%d %H:%M:%S")
 
 def length(start):
     end = datetime.datetime.today()
     length = (end - start)
-    #print length
-    #print length.total_seconds()
     print "--------\nTime Results\n-------"
     print "Start: ", start
     print "End: ", end
     print "%.3gs" % length.total_seconds() 
+
+def today(*args):
+    today = datetime.datetime.today()
+    month = ("0" + str(today.month)) if today.month < 10 else str(today.month)
+    day = ("0" + str(today.day)) if today.day < 10 else str(today.day)
+    year = str(today.year)
+    today = year+"-"+month+"-"+day
+    #print today
+    return today
+
+def yesterday(*args):
+    yesterday = (datetime.datetime.today() - timedelta(1)).strftime("%Y-%m-%d %H:%M:%S")
+    yesterday = yesterday[0:10]
+    #print yesterday
+    return yesterday
+
+def getDate(date):
+    print date
+    cur = today()
+    print cur
+
+def time():
+    today = datetime.datetime.today()
+    time = str(today.hour)+":"+str(today.minute)+":"+str(today.second)
+    return time
+
+def convertHour(hour):
+    print hour

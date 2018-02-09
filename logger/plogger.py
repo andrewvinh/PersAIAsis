@@ -1,29 +1,17 @@
 from imports import *
+import pdata
+import ptime
+import schema
 
-localLog = "/Users/andrewvinh/Development/logger/log.txt"
+def newLog(user, args):
+    now = ptime.now()
+    val = schema.newLog(user, args, now)
+    old = pdata.getLocal("Log")
+    oldKey = old.keys()[0][0:10] if len(old.keys()) > 0 else now[0:10]
 
-def writeLog(newLog):
-    with open(localLog,'w') as f:
-        f.write(json.dumps(newLog, sort_keys=False, indent=2))
-    #print "New Log: ", newLog
-
-def loadLog():    
-    log = []
-    if os.path.isfile(localLog):
-        with open(localLog,'r') as f:
-            log = json.load(f)
-    else:
-        writeLog(log)
-    #print "Loaded DB: ", db
-    return log
-
-def addLog(entry):
-    print "Log Entry: ", entry[0]
-    print "Json load: ", json.load(entry[0])
-    if os.path.isfile(localLog):
-        with open(localLog,'r') as f:
-            log = f.read()
-            print "Local log: ", log, "\nLength: ", len(log)
-            log = entry if len(log) == 0 else log.append(entry)
-    writeLog(log)
-            
+def recordDay(log):
+    print "Recording yesterday's log and resetting daily log"
+    out = str(os.path.dirname(os.path.abspath(__file__))+"/dlogs/"+ptime.yesterday()+".txt")
+    with open(out,'w') as f:
+        f.write(json.dumps(log, sort_keys=False, indent=2))
+    pdata.updateLocal("Log",schema.blankDict())

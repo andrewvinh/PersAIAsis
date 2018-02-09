@@ -1,20 +1,15 @@
-import pdata
 
 def closedDict():
     #print "Closed Dict: [{},0]" 
     return [newDB(),0]
 
-def newConfig():
-    return {}
-
 def newDB():
     return {"Misc":[]}
 
-def newCal():
+def newCal(**kwargs):
     return {
             "Name":"",
-            "Date":"",
-            "Duration":"",
+            "Start":"",
             "Notes":[]
             }
 
@@ -26,4 +21,12 @@ def newContact():
             "Relation": []
             }
 
+def newLog(user, args, ts):
+    return {
+            "User":user,
+            "Input":args,
+            "Timestamp":ts
+            }
 
+def blankDict():
+    return {}

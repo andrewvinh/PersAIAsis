@@ -6,10 +6,11 @@ import schema
 #Changes to config path must be reflected in imports.py
 #altPath = os.getcwd()
 localFiles = {
-        "localConfig":["/localConfig.txt",schema.newConfig()],
-        "localContacts":["/contacts.txt",schema.newContact()],
-        "localCalendar":["/calendar.txt",schema.newCal()],
-        "localDB":["/db.txt",schema.newDB()]
+        "localConfig":["/localConfig.txt",schema.blankDict()],
+        "localContacts":["/contacts.txt",schema.blankDict()],
+        "localCalendar":["/calendar.txt",schema.blankDict()],
+        "localDB":["/db.txt",schema.newDB()],
+        "localLog":["/dlog.txt",schema.blankDict()]
         }
 
 def getLocal(word):
@@ -41,7 +42,7 @@ def getMatch(word):
         print "Branch not found. Note: Keys are case-sensitive"
 
 def updateLocal(branch, new):
-    if branch != "Config": 
+    if branch != "Config" and branch != "Log": 
         print "Updating local", branch
     branch = str("local" + branch)
     if branch in localFiles.keys():
@@ -54,28 +55,37 @@ def resetDB(*args):
 
 def checkDict(branch):
     print "Looking up", branch
+    branch = branch[0] if isinstance(branch,list) else branch
     cur = getLocal(branch)
     if isinstance(cur,(dict)):
         if len(cur) > 0:
             print branch,":"
-            for key in cur:
+            for key in sorted(cur):
                 print key
                 print cur[key]
         else:
             print "Empty dict"
     else:
         print "Local",branch,"not found. Note: Keys are case-sensitive"
+    return cur
 
-#branch = local file, entry = new dict entry
+#branch = local branch name, entry = {newKey:newVal}
 def dictAdd(branch, entry):
-    print "Attempting to modify", branch
     local = getLocal(branch)
     newKey = entry.keys()[0]
     newVal = entry[newKey]
-    if newKey not in local.keys():
-        local[newKey] = newVal
+    if len(local.keys()) > 0:
+        if newKey not in local.keys():
+            local[newKey] = newVal
+        else:
+            if isinstance(local[newKey],list):
+                local[newKey] = local[newKey] + entry[newKey]
+            print newKey, "already found in", branch
     else:
-        print newKey, "already found in", branch
+        print "Creating new", branch
+        local[newKey] = newVal
+    updateLocal(branch,local)
+    return local
 
 def dictRem(branch, key):
     local = getLocal(branch)
@@ -93,6 +103,7 @@ def getKey(local, search):
     print "Searching for: ", search
     for key in local.keys():
         cur = local[key]
+        print cur
         if isinstance(cur, dict):
             for k1 in cur.keys():
                 c1 = cur[k1]
@@ -104,11 +115,6 @@ def getKey(local, search):
                 final.append(key)
                 break
     return sorted(final)
-
-def testKey(*args):
-    print getKey("Contacts", "test")
-    print getKey("DB", "Hiking")
-    print getKey("Contacts", "family")
 
 #paia addCat Contacts Address
 def addCat(words):
@@ -142,8 +148,9 @@ def removeCat(words):
 def redAdd(bod, add):
     bkeys = bod.keys()
     for akey in add.keys():
-        if akey == "Misc":
-            bod["Misc"] = bod["Misc"] + list(set(add["Misc"]) - set(bod[akey]))
+        #if akey == "Misc":
+        if isinstance(add[akey], list):
+            bod[akey] = bod[akey] + list(set(add[akey]) - set(bod[akey]))
         else:
             if akey in bkeys:
                 bod[akey] = redAdd(bod[akey],add[akey])
@@ -203,6 +210,7 @@ def lookup(full):
         select = ""
         print "Would you like to lookup further?"
         select = raw_input()
-        for k1 in current.keys():
-            if select.lower() in k1.lower():
-                lookup(paths + [k1])
+        if select.lower() != "no" and select.lower() != "exit":
+            for k1 in current.keys():
+                if select.lower() in k1.lower():
+                    lookup(paths + [k1])

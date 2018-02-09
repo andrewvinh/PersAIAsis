@@ -62,7 +62,11 @@ def checkDict(branch):
             print branch,":"
             for key in sorted(cur):
                 print key
-                print cur[key]
+                if isinstance(cur[key],list):
+                    for item in cur[key]:
+                        print item
+                else:
+                    print cur[key]
         else:
             print "Empty dict"
     else:
@@ -118,7 +122,7 @@ def getKey(local, search):
 
 #paia addCat Contacts Address
 def addCat(words):
-    if len(words) > 0:
+    if len(words) > 1:
         db = getLocal(words[0])
         cat = panalyze.cleanString(words[1]) if len(words)>1 else panalyze.cleanString("String")
         print "Adding", cat,"to", words[0]
@@ -126,11 +130,14 @@ def addCat(words):
             print "Did you wanna make this a list?"
             choice = raw_input()
             choice = [] if choice.lower() == "yes" else ""
-            for item in db:
-                db[item][cat] = choice
+            for key in db.keys():
+                db[key][cat] = choice
             updateLocal(words[0], db)
+            #print "New", words[0],":", db
         else: 
             print cat,"is already present in", words[0]
+    else:
+        print "Args: [branch,newCat]"
 
 #paia removeCat Contacts Address
 def removeCat(words):
@@ -138,7 +145,7 @@ def removeCat(words):
         db = getLocal(words[0])
         cat = panalyze.cleanString(words[1]) if len(words)>1 else panalyze.cleanString("String")
         if cat in db["0"].keys():
-            print "Removing", cat,"from", db
+            #print "Removing", cat,"from", db
             for item in db:
                 db[item].pop(cat)
         else:

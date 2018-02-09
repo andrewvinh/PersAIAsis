@@ -14,26 +14,36 @@ import schema
 #paia listContacts andrew
 def listContacts(*args):
     conts = pdata.getLocal("Contacts")
+    print "Args:", args
     if len(conts) == 0:
         print "No contacts... loser."
     else:
-        search = args[0][0].lower() if args[0] else ""
+        search = []
+        for item in [e for e in args if e]:
+            print item
+            if isinstance(item,str):
+                search.append(item)
+            elif isinstance(item,list):
+                search = search + item
         if search:
-            ids = getID(search)
+            ids = []
+            for criteria in search:
+                ids = ids + getID(search)
             for item in sorted(ids):
                 print "User ID: ", item
-                print "Name: ", conts[item]["Name"]
-                print "Mobile: ", conts[item]["Mobile"]
-                print "Email: ", conts[item]["Email"]
-                print "Relation: ", conts[item]["Relation"]
+                default = ["Name","Mobile","Email","Relation"]
+                for t1 in default:
+                    print t1, ":", conts[item][t1]
+                if len(conts[item].keys()) > 4:
+                    extras = [e for e in conts[item].keys() if e not in default]
+                    for t2 in extras:
+                        print t2, ":", conts[item][t2]
         else:
             count = 1
             while count < len(conts.keys())-1: #-1 because of Contact -1: Twilio Bot
-                print "ID: ", count
-                print "Name: ", conts[str(count)]["Name"]
-                print "Mobile: ", conts[str(count)]["Mobile"]
-                print "Email: ", conts[str(count)]["Email"]
-                print "Relation: ", conts[str(count)]["Relation"]
+                print "ID : ", count
+                for default in ["Name","Mobile","Email","Relation"]:
+                    print conts[str(count)][default]
                 count = count + 1
 
 def textMyself(words):

@@ -23,15 +23,12 @@ def addEvent(words):
         count = count + 1
     if key == ptime.today():
         print "Enter date (ex: 2018.02.14):"
-        key = raw_input().replace(".","-")
-        key = key.split("-")
-        while len(key[0]) != 4:
-            print "Re-enter year: "
-            key[0] = raw_input()
-        if len(key[1]) == 1:
-            key[1] = "0"+key[1]
-        if len(key[2]) == 1:
-            key[2] = "0"+key[2]
+        key = raw_input().replace(".","-").split("-")
+        while len(key) != 3:
+            print "Re-enter date: "
+            key = raw_input().split("-")
+        key[1] = "0" + key[1] if len(key[1]) == 1 else key[1]
+        key[2] = "0" + key[2] if len(key[2]) == 1 else key[2]
         key = "-".join(key)
     for item in ["Name", "Start"]:
         if len(new[item]) == 0:

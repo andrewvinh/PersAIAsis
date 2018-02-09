@@ -22,9 +22,8 @@ def today(*args):
 
 def yesterday(*args):
     yesterday = (datetime.datetime.today() - timedelta(1)).strftime("%Y-%m-%d %H:%M:%S")
-    yesterday = yesterday[0:10]
     #print yesterday
-    return yesterday
+    return yesterday[0:10]
 
 def getDate(date):
     print date

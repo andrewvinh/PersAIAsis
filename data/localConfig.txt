@@ -33,6 +33,7 @@
     "pdata.removeCat", 
     "pdata.resetDB", 
     "pdata.updateLocal", 
+    "test.runCheck", 
     "schema.blankDict", 
     "schema.closedDict", 
     "schema.newCal", 

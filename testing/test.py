@@ -7,8 +7,6 @@ def runCheck(words):
     pdata.lookup("")
     print "-------"
     print "Running Contact check"
-    psms.listContacts("1")
-    print "-------"
     psms.listContacts("andrew")
     print "-------"
     psms.listContacts("family")

@@ -6,15 +6,15 @@ import schema
 #Changes to config path must be reflected in imports.py
 #altPath = os.getcwd()
 localFiles = {
-        "localConfig":["/localConfig.txt",schema.blankDict()],
-        "localContacts":["/contacts.txt",schema.blankDict()],
-        "localCalendar":["/calendar.txt",schema.blankDict()],
-        "localDB":["/db.txt",schema.newDB()],
-        "localLog":["/dlog.txt",schema.blankDict()]
+        "config":["/localConfig.txt",schema.blankDict()],
+        "contacts":["/contacts.txt",schema.blankDict()],
+        "calendar":["/calendar.txt",schema.blankDict()],
+        "db":["/db.txt",schema.newDB()],
+        "log":["/dlog.txt",schema.blankDict()]
         }
 
 def getLocal(word):
-    branch = str("local" + word)
+    branch = str(word).lower()
     if branch in localFiles.keys():
         cur = str(os.path.dirname(os.path.abspath(__file__))+localFiles[branch][0])
         #print cur
@@ -35,7 +35,7 @@ def getLocal(word):
 
 
 def getMatch(word):
-    branch = str("local" + word)
+    branch = str(word).lower()
     if branch in localFiles.keys():
         return localFiles[branch][1]
     else:
@@ -44,7 +44,7 @@ def getMatch(word):
 def updateLocal(branch, new):
     if branch != "Config" and branch != "Log": 
         print "Updating local", branch
-    branch = str("local" + branch)
+    branch = str(branch).lower()
     if branch in localFiles.keys():
         with open(str(os.path.dirname(os.path.abspath(__file__))+localFiles[branch][0]),'w') as f:
             f.write(json.dumps(new, sort_keys=False, indent=2))
@@ -107,7 +107,6 @@ def getKey(local, search):
     print "Searching for: ", search
     for key in local.keys():
         cur = local[key]
-        print cur
         if isinstance(cur, dict):
             for k1 in cur.keys():
                 c1 = cur[k1]

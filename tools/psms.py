@@ -14,13 +14,12 @@ import schema
 #paia listContacts andrew
 def listContacts(*args):
     conts = pdata.getLocal("Contacts")
-    print "Args:", args
+    #print "Args:", args
     if len(conts) == 0:
         print "No contacts... loser."
     else:
         search = []
         for item in [e for e in args if e]:
-            print item
             if isinstance(item,str):
                 search.append(item)
             elif isinstance(item,list):
@@ -35,6 +34,7 @@ def listContacts(*args):
                 for t1 in default:
                     print t1, ":", conts[item][t1]
                 if len(conts[item].keys()) > 4:
+                    #print "Extras!"
                     extras = [e for e in conts[item].keys() if e not in default]
                     for t2 in extras:
                         print t2, ":", conts[item][t2]

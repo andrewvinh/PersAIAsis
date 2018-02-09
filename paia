@@ -31,10 +31,11 @@ def mainCheck():
 def checkDay():
     now = ptime.now()
     old = pdata.getLocal("Log")
-    if now[0:10] != old.keys()[0][0:10]:
-        plogger.recordDay(old)
-        pconfig.updateConfig("checkCal",1)
-        return 0
+    if len(old.keys()) > 0:
+        if now[0:10] != old.keys()[0][0:10]:
+            plogger.recordDay(old)
+            pconfig.updateConfig("checkCal",1)
+            return 0
     return 1
 
 def readArgs(argv, bod):

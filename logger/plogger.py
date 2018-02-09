@@ -8,6 +8,9 @@ def newLog(user, args):
     val = schema.newLog(user, args, now)
     old = pdata.getLocal("Log")
     oldKey = old.keys()[0][0:10] if len(old.keys()) > 0 else now[0:10]
+    print "Fucking oldKey: ",oldKey
+    old[now] = val
+    pdata.updateLocal("Log",old)
 
 def recordDay(log):
     print "Recording yesterday's log and resetting daily log"

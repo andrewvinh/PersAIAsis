@@ -37,3 +37,13 @@ def time():
 
 def convertHour(hour):
     print hour
+
+def compare(then):
+    cur = today().split("-")
+    then = then.split("-")
+    if cur[0] < then[0] or cur[1] < then[1] or cur[2] < then[2]:
+        return True
+    elif cur[0] == then[0] and cur[1] == then[1] and cur[2] == then[2]:
+        return True
+    else:
+        return False

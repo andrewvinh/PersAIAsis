@@ -53,6 +53,7 @@
     "pcalendar.addEvent", 
     "pcalendar.checkCal", 
     "pcalendar.dailyEvents", 
+    "ptime.compare", 
     "ptime.convertHour", 
     "ptime.getDate", 
     "ptime.length", 

@@ -1,10 +1,25 @@
 from imports import *
 import pdata
 import panalyze
+import ptime
+
 
 
 def checkCal(*args):
-    pdata.checkDict("Calendar")
+    local = pdata.getLocal("Calendar")
+    if len(local) > 0:
+        for key in sorted(local):
+            later = ptime.compare(key)
+            if later:
+                cur = local[key]
+                print key
+                if isinstance(cur,list):
+                    for item in cur:
+                        print item
+                else:
+                    print cur
+    else:
+        print "Empty calendar"
 
 def addEvent(words):
     print "Creating new calendar event"

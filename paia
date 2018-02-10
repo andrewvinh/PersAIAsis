@@ -3,9 +3,8 @@ from imports import *
 
 def run():
     args = sys.argv
-    mainCheck()
+    checkup()
     if(len(args) > 1):
-        plogger.newLog("Andrew", sys.argv[1::])
         timed = 0
         if "timed" in args:
             print "Timing!"
@@ -21,20 +20,27 @@ def run():
     else:
         print "No commands found. What would you like?"
 
-def mainCheck():
+def checkup(*args):
+    print "Yawn.."
     today = checkDay()
+    print "Let's see"
     check = pconfig.getConfig("checkCal")
     if check: 
         temp = pcalendar.dailyEvents()
         pconfig.updateConfig("checkCal",temp)
+    print "Lemme write this down"
+    plogger.newLog("Andrew", sys.argv[1::])
 
 def checkDay():
     now = ptime.now()
     old = pdata.getLocal("Log")
     if len(old.keys()) > 0:
         if now[0:10] != old.keys()[0][0:10]:
+            #Logging yesterday's log
             plogger.recordDay(old)
+            #Resetting daily event status
             pconfig.updateConfig("checkCal",1)
+            print "Good morning, Andrew! How are you today?"
             return 0
     return 1
 

@@ -3,7 +3,8 @@ import pdata
 import panalyze
 import ptime
 
-
+def allEvents(*args):
+    pdata.checkDict("Calendar")
 
 def checkCal(*args):
     local = pdata.getLocal("Calendar")
@@ -58,6 +59,7 @@ def addEvent(words):
     pdata.dictAdd("Calendar", {key:[new]})
 
 def dailyEvents():
+    print "Hmm.. Let's see if we're doing anything today.."
     cal = pdata.getLocal("Calendar")
     today = ptime.today()
     #print ptime.time()
@@ -73,6 +75,6 @@ def dailyEvents():
         else:
             show = 0
     else:
-        print "No events today!"
+        print "No events today! You're free to do whatever you'd like!"
         show = 0
     return show

@@ -51,6 +51,7 @@
     "psms.textGroup", 
     "psms.textMyself", 
     "pcalendar.addEvent", 
+    "pcalendar.allEvents", 
     "pcalendar.checkCal", 
     "pcalendar.dailyEvents", 
     "ptime.compare", 
